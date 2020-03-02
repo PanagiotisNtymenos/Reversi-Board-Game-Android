@@ -26,7 +26,6 @@ public class GameEngine extends AppCompatActivity {
         final TextView display = findViewById(R.id.display);
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
-        changeBoard();
 
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -37,6 +36,7 @@ public class GameEngine extends AppCompatActivity {
                 whites.setText("CPU");
                 blacks.setClickable(false);
                 whites.setClickable(false);
+                AITurn(revChoice, choice, display);
             }
         });
         findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
@@ -49,6 +49,9 @@ public class GameEngine extends AppCompatActivity {
                 blacks.setClickable(false);
                 whites.setClickable(false);
                 pTurn = true;
+                playersTurn(choice, display, "R");
+                changeBoard();
+
             }
         });
 
@@ -635,24 +638,25 @@ public class GameEngine extends AppCompatActivity {
             column = 0;
             endGame = 0;
 //            z.printWithMap(z);
+            changeBoard();
+            if (!position.equals("R")) {
+                row = Integer.parseInt(String.valueOf(position.charAt(0)));
+                column = Integer.parseInt(String.valueOf(position.charAt(1)));
 
 
-            row = Integer.parseInt(String.valueOf(position.charAt(0)));
-            column = Integer.parseInt(String.valueOf(position.charAt(1)));
+                if (!(z.Map[row][column] == 'Z')) {
 
+                    display.setText("No move in such coordinates.");
+                } else {
 
-            if (!(z.Map[row][column] == 'Z')) {
-
-                display.setText("No move in such coordinates.");
-            } else {
-
-                for (int x = 0; x < 8; x++) {
-                    for (int y = 0; y < 8; y++) {
-                        z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
+                    for (int x = 0; x < 8; x++) {
+                        for (int y = 0; y < 8; y++) {
+                            z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
+                        }
                     }
+                    changeBoard();
+                    AITurn(revChoice, choice, display);
                 }
-                changeBoard();
-                AITurn(revChoice, choice, display);
             }
         } else {
             display.setText("No moves to make.");
@@ -674,8 +678,7 @@ public class GameEngine extends AppCompatActivity {
             }
 
             display.setText("CPU Played.");
-            display.setText("Player's turn(" + choice + "): ");
-            changeBoard();
+            playersTurn(revChoice, display, "R");
 
         } else {
             display.setText("No moves to make.");
@@ -1166,138 +1169,138 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.hint);
                     }
-                } else {
+                } else if(z.Map[i][j] == ' '){
                     if (position.equals("00")) {
-                        b00.setImageResource(R.drawable.hint);
+                        b00.setImageResource(R.drawable.transparent);
                     } else if (position.equals("01")) {
-                        b01.setImageResource(R.drawable.hint);
+                        b01.setImageResource(R.drawable.transparent);
                     } else if (position.equals("02")) {
-                        b02.setImageResource(R.drawable.hint);
+                        b02.setImageResource(R.drawable.transparent);
                     } else if (position.equals("03")) {
-                        b03.setImageResource(R.drawable.hint);
+                        b03.setImageResource(R.drawable.transparent);
                     } else if (position.equals("04")) {
-                        b04.setImageResource(R.drawable.hint);
+                        b04.setImageResource(R.drawable.transparent);
                     } else if (position.equals("05")) {
-                        b05.setImageResource(R.drawable.hint);
+                        b05.setImageResource(R.drawable.transparent);
                     } else if (position.equals("06")) {
-                        b06.setImageResource(R.drawable.hint);
+                        b06.setImageResource(R.drawable.transparent);
                     } else if (position.equals("07")) {
-                        b07.setImageResource(R.drawable.hint);
+                        b07.setImageResource(R.drawable.transparent);
                     } else if (position.equals("10")) {
-                        b10.setImageResource(R.drawable.hint);
+                        b10.setImageResource(R.drawable.transparent);
                     } else if (position.equals("11")) {
-                        b11.setImageResource(R.drawable.hint);
+                        b11.setImageResource(R.drawable.transparent);
                     } else if (position.equals("12")) {
-                        b12.setImageResource(R.drawable.hint);
+                        b12.setImageResource(R.drawable.transparent);
                     } else if (position.equals("13")) {
-                        b13.setImageResource(R.drawable.hint);
+                        b13.setImageResource(R.drawable.transparent);
                     } else if (position.equals("14")) {
-                        b14.setImageResource(R.drawable.hint);
+                        b14.setImageResource(R.drawable.transparent);
                     } else if (position.equals("15")) {
-                        b15.setImageResource(R.drawable.hint);
+                        b15.setImageResource(R.drawable.transparent);
                     } else if (position.equals("16")) {
-                        b16.setImageResource(R.drawable.hint);
+                        b16.setImageResource(R.drawable.transparent);
                     } else if (position.equals("17")) {
-                        b17.setImageResource(R.drawable.hint);
+                        b17.setImageResource(R.drawable.transparent);
                     } else if (position.equals("20")) {
-                        b20.setImageResource(R.drawable.hint);
+                        b20.setImageResource(R.drawable.transparent);
                     } else if (position.equals("21")) {
-                        b21.setImageResource(R.drawable.hint);
+                        b21.setImageResource(R.drawable.transparent);
                     } else if (position.equals("22")) {
-                        b22.setImageResource(R.drawable.hint);
+                        b22.setImageResource(R.drawable.transparent);
                     } else if (position.equals("23")) {
-                        b23.setImageResource(R.drawable.hint);
+                        b23.setImageResource(R.drawable.transparent);
                     } else if (position.equals("24")) {
-                        b24.setImageResource(R.drawable.hint);
+                        b24.setImageResource(R.drawable.transparent);
                     } else if (position.equals("25")) {
-                        b25.setImageResource(R.drawable.hint);
+                        b25.setImageResource(R.drawable.transparent);
                     } else if (position.equals("26")) {
-                        b26.setImageResource(R.drawable.hint);
+                        b26.setImageResource(R.drawable.transparent);
                     } else if (position.equals("27")) {
-                        b27.setImageResource(R.drawable.hint);
+                        b27.setImageResource(R.drawable.transparent);
                     } else if (position.equals("30")) {
-                        b30.setImageResource(R.drawable.hint);
+                        b30.setImageResource(R.drawable.transparent);
                     } else if (position.equals("31")) {
-                        b31.setImageResource(R.drawable.hint);
+                        b31.setImageResource(R.drawable.transparent);
                     } else if (position.equals("32")) {
-                        b32.setImageResource(R.drawable.hint);
+                        b32.setImageResource(R.drawable.transparent);
                     } else if (position.equals("33")) {
-                        b33.setImageResource(R.drawable.hint);
+                        b33.setImageResource(R.drawable.transparent);
                     } else if (position.equals("34")) {
-                        b34.setImageResource(R.drawable.hint);
+                        b34.setImageResource(R.drawable.transparent);
                     } else if (position.equals("35")) {
-                        b35.setImageResource(R.drawable.hint);
+                        b35.setImageResource(R.drawable.transparent);
                     } else if (position.equals("36")) {
-                        b36.setImageResource(R.drawable.hint);
+                        b36.setImageResource(R.drawable.transparent);
                     } else if (position.equals("37")) {
-                        b37.setImageResource(R.drawable.hint);
+                        b37.setImageResource(R.drawable.transparent);
                     } else if (position.equals("40")) {
-                        b40.setImageResource(R.drawable.hint);
+                        b40.setImageResource(R.drawable.transparent);
                     } else if (position.equals("41")) {
-                        b41.setImageResource(R.drawable.hint);
+                        b41.setImageResource(R.drawable.transparent);
                     } else if (position.equals("42")) {
-                        b42.setImageResource(R.drawable.hint);
+                        b42.setImageResource(R.drawable.transparent);
                     } else if (position.equals("43")) {
-                        b43.setImageResource(R.drawable.hint);
+                        b43.setImageResource(R.drawable.transparent);
                     } else if (position.equals("44")) {
-                        b44.setImageResource(R.drawable.hint);
+                        b44.setImageResource(R.drawable.transparent);
                     } else if (position.equals("45")) {
-                        b45.setImageResource(R.drawable.hint);
+                        b45.setImageResource(R.drawable.transparent);
                     } else if (position.equals("46")) {
-                        b46.setImageResource(R.drawable.hint);
+                        b46.setImageResource(R.drawable.transparent);
                     } else if (position.equals("47")) {
-                        b47.setImageResource(R.drawable.hint);
+                        b47.setImageResource(R.drawable.transparent);
                     } else if (position.equals("50")) {
-                        b50.setImageResource(R.drawable.hint);
+                        b50.setImageResource(R.drawable.transparent);
                     } else if (position.equals("51")) {
-                        b51.setImageResource(R.drawable.hint);
+                        b51.setImageResource(R.drawable.transparent);
                     } else if (position.equals("52")) {
-                        b52.setImageResource(R.drawable.hint);
+                        b52.setImageResource(R.drawable.transparent);
                     } else if (position.equals("53")) {
-                        b53.setImageResource(R.drawable.hint);
+                        b53.setImageResource(R.drawable.transparent);
                     } else if (position.equals("54")) {
-                        b54.setImageResource(R.drawable.hint);
+                        b54.setImageResource(R.drawable.transparent);
                     } else if (position.equals("55")) {
-                        b55.setImageResource(R.drawable.hint);
+                        b55.setImageResource(R.drawable.transparent);
                     } else if (position.equals("56")) {
-                        b56.setImageResource(R.drawable.hint);
+                        b56.setImageResource(R.drawable.transparent);
                     } else if (position.equals("57")) {
-                        b57.setImageResource(R.drawable.hint);
+                        b57.setImageResource(R.drawable.transparent);
                     } else if (position.equals("60")) {
-                        b60.setImageResource(R.drawable.hint);
+                        b60.setImageResource(R.drawable.transparent);
                     } else if (position.equals("61")) {
-                        b61.setImageResource(R.drawable.hint);
+                        b61.setImageResource(R.drawable.transparent);
                     } else if (position.equals("62")) {
-                        b62.setImageResource(R.drawable.hint);
+                        b62.setImageResource(R.drawable.transparent);
                     } else if (position.equals("63")) {
-                        b63.setImageResource(R.drawable.hint);
+                        b63.setImageResource(R.drawable.transparent);
                     } else if (position.equals("64")) {
-                        b64.setImageResource(R.drawable.hint);
+                        b64.setImageResource(R.drawable.transparent);
                     } else if (position.equals("65")) {
-                        b65.setImageResource(R.drawable.hint);
+                        b65.setImageResource(R.drawable.transparent);
                     } else if (position.equals("66")) {
-                        b66.setImageResource(R.drawable.hint);
+                        b66.setImageResource(R.drawable.transparent);
                     } else if (position.equals("67")) {
-                        b67.setImageResource(R.drawable.hint);
+                        b67.setImageResource(R.drawable.transparent);
                     } else if (position.equals("70")) {
-                        b70.setImageResource(R.drawable.hint);
+                        b70.setImageResource(R.drawable.transparent);
                     } else if (position.equals("71")) {
-                        b71.setImageResource(R.drawable.hint);
+                        b71.setImageResource(R.drawable.transparent);
                     } else if (position.equals("72")) {
-                        b72.setImageResource(R.drawable.hint);
+                        b72.setImageResource(R.drawable.transparent);
                     } else if (position.equals("73")) {
-                        b73.setImageResource(R.drawable.hint);
+                        b73.setImageResource(R.drawable.transparent);
                     } else if (position.equals("74")) {
-                        b74.setImageResource(R.drawable.hint);
+                        b74.setImageResource(R.drawable.transparent);
                     } else if (position.equals("75")) {
-                        b75.setImageResource(R.drawable.hint);
+                        b75.setImageResource(R.drawable.transparent);
                     } else if (position.equals("76")) {
-                        b76.setImageResource(R.drawable.hint);
+                        b76.setImageResource(R.drawable.transparent);
                     } else if (position.equals("77")) {
-                        b77.setImageResource(R.drawable.hint);
+                        b77.setImageResource(R.drawable.transparent);
                     }
                 }
             }
         }
-
     }
+}
