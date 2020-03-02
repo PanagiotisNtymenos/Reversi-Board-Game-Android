@@ -1,8 +1,10 @@
 package boardgame.reversi;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,8 +12,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.TimeUnit;
 
 public class GameEngine extends AppCompatActivity {
 
@@ -24,14 +24,17 @@ public class GameEngine extends AppCompatActivity {
     private boolean pTurn = false;
     private boolean finish = false;
     private boolean hints = false;
+    private boolean mute = false;
     private int depth = 1;
     private boolean delayThat = true;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        final MediaPlayer hint_sound = MediaPlayer.create(this, R.raw.hint);
+        final MediaPlayer hint_sound_off = MediaPlayer.create(this, R.raw.hintoff);
+        final MediaPlayer reset_sound = MediaPlayer.create(this, R.raw.reset);
+        final MediaPlayer level_sound = MediaPlayer.create(this, R.raw.level);
         setContentView(R.layout.game_activity);
         final TextView display = findViewById(R.id.display);
         final Button blacks = findViewById(R.id.black);
@@ -71,11 +74,13 @@ public class GameEngine extends AppCompatActivity {
                 delayThat = true;
                 fastSlow.setChecked(false);
                 changeBoard("reset", false);
+                reset_sound.start();
             }
         });
 
         findViewById(R.id.easy_hard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                level_sound.start();
                 depth = depth + 2;
                 if (depth == 7) {
                     depth = 1;
@@ -98,6 +103,7 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                hint_sound.start();
                 choice = 'X';
                 revChoice = 'O';
                 display.setText("CPU's turn!");
@@ -111,6 +117,7 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                hint_sound.start();
                 choice = 'O';
                 revChoice = 'X';
                 display.setText("Your turn!");
@@ -128,10 +135,12 @@ public class GameEngine extends AppCompatActivity {
         findViewById(R.id.hints).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (hints) {
+                    hint_sound_off.start();
                     hints = false;
                     onoff.setText("off");
                     changeBoard("update", false);
                 } else {
+                    hint_sound.start();
                     hints = true;
                     onoff.setText("on");
                     changeBoard("update", false);
@@ -854,6 +863,7 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void playersTurn(char choice, TextView display, String position) {
+        MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
         if (!finish) {
             if (move.possibleMoves(z, choice)) {
                 row = 0;
@@ -870,6 +880,7 @@ public class GameEngine extends AppCompatActivity {
 
                         display.setText("Can't move there!");
                     } else {
+                        roll.start();
                         for (int x = 0; x < 8; x++) {
                             for (int y = 0; y < 8; y++) {
                                 z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
@@ -905,11 +916,12 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void AITurn(char choice, char revChoice, TextView display) {
+        MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
         if (!finish) {
             display.setText("Your turn!");
             changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
-
+                roll.start();
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
                 for (int x = 0; x < 8; x++) {
@@ -932,6 +944,8 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void calculateScore(Board B, char choice, TextView display) {
+        MediaPlayer win = MediaPlayer.create(this, R.raw.win);
+        MediaPlayer lose = MediaPlayer.create(this, R.raw.lose);
         if (!finish) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -940,12 +954,25 @@ public class GameEngine extends AppCompatActivity {
                 }
             }
             if (Xnum > Onum) {
-                if (choice == 'O') display.setText("You Won! Score: " + Xnum + " - " + Onum);
-                else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
+                if (choice == 'O') {
+                    win.start();
+                    display.setText("You Won! Score: " + Xnum + " - " + Onum);
+                } else {
+                    lose.start();
+                    display.setText("You Lost! Score: " + Xnum + " - " + Onum);
+                }
             } else if (Xnum < Onum) {
-                if (choice == 'X') display.setText("You Won! Score: " + Xnum + " - " + Onum);
-                else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
-            } else display.setText("Draw! Score: " + Xnum + " - " + Onum);
+                if (choice == 'X') {
+                    win.start();
+                    display.setText("You Won! Score: " + Xnum + " - " + Onum);
+                } else {
+                    lose.start();
+                    display.setText("You Lost! Score: " + Xnum + " - " + Onum);
+                }
+            } else {
+                win.start();
+                display.setText("Draw! Score: " + Xnum + " - " + Onum);
+            }
             finish = true;
         }
     }
