@@ -10,41 +10,60 @@
     <Button
         android:id="@+id/black"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
         android:layout_marginBottom="24dp"
         android:background="@color/black"
         android:text="X"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/hints"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:background="@color/white"
         android:text="O"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/hints" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <ImageButton
         android:id="@+id/hints"
         android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:adjustViewBounds="true"
         android:background="#F4BD33"
         android:scaleType="fitCenter"
         android:src="@drawable/hintbulbshadow"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/white"
+        app:layout_constraintStart_toEndOf="@+id/reset" />
+
+    <ImageButton
+        android:id="@+id/reset"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:background="#FBC02D"
+        android:scaleType="fitCenter"
+        android:src="@drawable/reset"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/onoff"
@@ -865,6 +884,22 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/easy_hard"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:background="#FBC02D"
+        android:text="EASY"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/reset"
+        app:layout_constraintStart_toEndOf="@+id/black" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package boardgame.reversi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,14 +32,44 @@ public class GameEngine extends AppCompatActivity {
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
         final TextView onoff = findViewById(R.id.onoff);
+        final Button difficulty = findViewById(R.id.easy_hard);
 
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                recreate();
+                pTurn = false;
+                depth = 3;
+                difficulty.setText("EASY");
+                hints = false;
+                onoff.setText("off");
+                Xs = 0;
+                Os = 0;
+                choice = ' ';
+                revChoice = ' ';
+                row = 0;
+                column = 0;
+                endGame = 0;
+                Xnum = 0;
+                Onum = 0;
+                move = new Moves();
+                z = new Board();
+                finish = false;
+                blacks.setText("X");
+                whites.setText("O");
+                changeBoard();
             }
         });
 
+        findViewById(R.id.easy_hard).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (depth == 3) {
+                    depth = 5;
+                    difficulty.setText("HARD");
+                } else {
+                    depth = 3;
+                    difficulty.setText("EASY");
+                }
+            }
+        });
 
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
