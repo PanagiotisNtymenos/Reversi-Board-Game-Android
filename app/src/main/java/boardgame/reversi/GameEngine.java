@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameEngine extends AppCompatActivity {
 
+    int Xs = 0, Os = 0;
     static char choice = ' ';
     static char revChoice = ' ';
     public static int row, column, endGame = 0, Xnum = 0, Onum = 0;
@@ -17,6 +18,7 @@ public class GameEngine extends AppCompatActivity {
     static Board z = new Board();
     private boolean pTurn = false;
     private boolean finish = false;
+    private boolean hints = false;
     private int depth = 3;
 
 
@@ -28,6 +30,14 @@ public class GameEngine extends AppCompatActivity {
         final TextView display = findViewById(R.id.display);
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
+        final TextView onoff = findViewById(R.id.onoff);
+
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                recreate();
+            }
+        });
 
 
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
@@ -58,14 +68,30 @@ public class GameEngine extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.hints).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (hints) {
+                    hints = false;
+                    onoff.setText("off");
+                    changeBoard();
+                } else {
+                    hints = true;
+                    onoff.setText("on");
+                    changeBoard();
+                }
+
+            }
+        });
+
         findViewById(R.id.b00).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pTurn) {
                     playersTurn(choice, display, "00");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
-
             }
         });
 
@@ -74,10 +100,10 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "01");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
-
                 pTurn = true;
-
             }
         });
         findViewById(R.id.b02).setOnClickListener(new View.OnClickListener() {
@@ -85,8 +111,11 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "02");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
+
             }
         });
         findViewById(R.id.b03).setOnClickListener(new View.OnClickListener() {
@@ -94,8 +123,11 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "03");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
+
             }
         });
         findViewById(R.id.b04).setOnClickListener(new View.OnClickListener() {
@@ -103,8 +135,11 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "04");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
+
             }
         });
         findViewById(R.id.b05).setOnClickListener(new View.OnClickListener() {
@@ -112,6 +147,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "05");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -122,6 +159,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "06");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -132,6 +171,19 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "07");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
+                }
+                pTurn = true;
+            }
+        });
+        findViewById(R.id.b10).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (pTurn) {
+                    playersTurn(choice, display, "10");
+                    pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -141,6 +193,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "11");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -150,6 +204,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "12");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -159,6 +215,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "13");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -168,6 +226,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "14");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -177,6 +237,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "15");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -186,6 +248,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "16");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -195,6 +259,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "17");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -204,6 +270,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "20");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -213,6 +281,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "21");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -222,6 +292,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "22");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -231,6 +303,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "23");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -240,6 +314,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "24");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -249,6 +325,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "25");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -258,6 +336,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "26");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -267,6 +347,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "27");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -276,6 +358,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "30");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -285,6 +369,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "31");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -294,6 +380,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "32");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -303,6 +391,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "33");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -312,6 +402,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "34");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -321,6 +413,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "35");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -330,6 +424,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "36");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -339,6 +435,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "37");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -348,6 +446,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "40");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -357,6 +457,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "41");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -366,6 +468,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "42");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -375,6 +479,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "43");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -384,6 +490,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "44");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -393,6 +501,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "45");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -402,6 +512,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "46");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -411,6 +523,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "47");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -420,6 +534,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "50");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -429,6 +545,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "51");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -438,6 +556,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "52");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -447,6 +567,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "53");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -456,6 +578,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "54");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -465,6 +589,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "55");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -474,6 +600,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "56");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -483,6 +611,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "57");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -492,6 +622,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "60");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -501,6 +633,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "61");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -510,6 +644,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "62");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -519,6 +655,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "63");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -528,6 +666,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "64");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -537,6 +677,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "65");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -546,6 +688,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "66");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -555,6 +699,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "67");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -564,6 +710,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "70");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -573,6 +721,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "71");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -582,6 +732,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "72");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -591,6 +743,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "73");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -600,6 +754,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "74");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -609,6 +765,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "75");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -618,6 +776,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "76");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -627,6 +787,8 @@ public class GameEngine extends AppCompatActivity {
                 if (pTurn) {
                     playersTurn(choice, display, "77");
                     pTurn = false;
+                } else {
+                    findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
             }
@@ -635,35 +797,36 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void playersTurn(char choice, TextView display, String position) {
-        display.setText("Player's turn(" + choice + "): ");
-        if (move.possibleMoves(z, choice)) {
-            row = 0;
-            column = 0;
-            endGame = 0;
+        if (!finish) {
+            display.setText("Player's turn(" + choice + "): ");
+            if (move.possibleMoves(z, choice)) {
+                row = 0;
+                column = 0;
+                endGame = 0;
 //            z.printWithMap(z);
-            changeBoard();
-            if (!position.equals("R")) {
-                row = Integer.parseInt(String.valueOf(position.charAt(0)));
-                column = Integer.parseInt(String.valueOf(position.charAt(1)));
+                changeBoard();
+                if (!position.equals("R")) {
+                    row = Integer.parseInt(String.valueOf(position.charAt(0)));
+                    column = Integer.parseInt(String.valueOf(position.charAt(1)));
 
 
-                if (!(z.Map[row][column] == 'Z')) {
+                    if (!(z.Map[row][column] == 'Z')) {
 
-                    display.setText("Can't move there!");
-                } else {
+                        display.setText("Can't move there!");
+                    } else {
 
-                    for (int x = 0; x < 8; x++) {
-                        for (int y = 0; y < 8; y++) {
-                            z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
+                        for (int x = 0; x < 8; x++) {
+                            for (int y = 0; y < 8; y++) {
+                                z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
+                            }
                         }
+                        changeBoard();
+                        liveScore(z);
+                        AITurn(revChoice, choice, display);
                     }
-                    changeBoard();
-                    liveScore(z);
-                    AITurn(revChoice, choice, display);
                 }
-            }
-        } else {
-            if (!finish) {
+            } else {
+
                 display.setText("No moves to make.");
                 endGame++;
                 liveScore(z);
@@ -676,27 +839,27 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void AITurn(char choice, char revChoice, TextView display) {
-
-        display.setText("CPU's turn(" + revChoice + "): ");
-        changeBoard();
-        if (move.possibleMoves(z, choice)) {
-            endGame = 0;
-            Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    z.currentBoard[x][y] = temp.currentBoard[x][y];
+        if (!finish) {
+            display.setText("CPU's turn(" + revChoice + "): ");
+            changeBoard();
+            if (move.possibleMoves(z, choice)) {
+                endGame = 0;
+                Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
+                for (int x = 0; x < 8; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        z.currentBoard[x][y] = temp.currentBoard[x][y];
+                    }
                 }
-            }
 
-            display.setText("CPU Played.");
-            liveScore(z);
-            playersTurn(revChoice, display, "R");
+                display.setText("CPU Played.");
+                liveScore(z);
+                playersTurn(revChoice, display, "R");
 
-        } else {
-            if (!finish) {
+            } else {
+
                 display.setText("No moves to make for CPU.");
                 endGame++;
-                if (endGame >= 2) {
+                if (endGame >= 2 || Os + Xs == 64) {
                     calculateScore(z, choice, display);
                 }
             }
@@ -723,7 +886,8 @@ public class GameEngine extends AppCompatActivity {
     }
 
     private void liveScore(Board B) {
-        int Xs = 0, Os = 0;
+        Xs = 0;
+        Os = 0;
         final TextView blackp = findViewById(R.id.black_points);
         final TextView whitep = findViewById(R.id.white_points);
         for (int i = 0; i < 8; i++) {
@@ -1072,7 +1236,8 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.black_shadow);
                     }
-                } else if (z.Map[i][j] == 'Z') {
+                } else if (z.Map[i][j] == 'Z' && hints) {
+
                     if (position.equals("00")) {
                         b00.setImageResource(R.drawable.hint);
                     } else if (position.equals("01")) {
@@ -1202,7 +1367,9 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.hint);
                     }
-                } else if (z.Map[i][j] == ' ') {
+
+                } else if (z.Map[i][j] == ' ' || (z.Map[i][j] == 'Z' && !hints)) {
+
                     if (position.equals("00")) {
                         b00.setImageResource(R.drawable.transparent);
                     } else if (position.equals("01")) {
@@ -1332,6 +1499,7 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.transparent);
                     }
+
                 }
             }
         }
