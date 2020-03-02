@@ -80,36 +80,56 @@
         app:layout_constraintVertical_bias="0.422" />
 
     <TextView
-        android:id="@+id/display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@color/white"
-        android:text="~ Welcome to Reversi! ~"
-        android:textAlignment="center"
-        android:textColor="#0C0C0C"
-        android:textSize="30sp"
-        android:textStyle="italic"
+        android:id="@+id/shadow_display"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black_overlay"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/black_points"
+        android:id="@+id/score_back"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FBC02D"
+        app:layout_constraintBottom_toBottomOf="@+id/white_points"
+        app:layout_constraintEnd_toEndOf="@+id/white_points"
+        app:layout_constraintStart_toStartOf="@+id/black_points"
+        app:layout_constraintTop_toTopOf="@+id/black_points" />
+
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:text="~ Welcome to Reversi! ~"
+        android:textAlignment="center"
+        android:textColor="#FBC02D"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/shadow_display"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/shadow_display"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/black_points"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="36sp"
-        android:textStyle="bold"
+        android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@+id/div"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
     <TextView
         android:id="@+id/white_points"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="0"
@@ -126,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text=":"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"

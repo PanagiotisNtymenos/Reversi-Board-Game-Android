@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.TimeUnit;
+
 public class GameEngine extends AppCompatActivity {
 
     int Xs = 0, Os = 0;
@@ -20,6 +22,7 @@ public class GameEngine extends AppCompatActivity {
     private boolean pTurn = false;
     private boolean finish = false;
     private boolean hints = false;
+    private boolean notDoneMove = true;
     private int depth = 3;
 
 
@@ -33,6 +36,8 @@ public class GameEngine extends AppCompatActivity {
         final Button whites = findViewById(R.id.white);
         final TextView onoff = findViewById(R.id.onoff);
         final Button difficulty = findViewById(R.id.easy_hard);
+        final TextView blackp = findViewById(R.id.black_points);
+        final TextView whitep = findViewById(R.id.white_points);
 
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -55,7 +60,12 @@ public class GameEngine extends AppCompatActivity {
                 finish = false;
                 blacks.setText("X");
                 whites.setText("O");
-                changeBoard();
+                blacks.setClickable(true);
+                whites.setClickable(true);
+                display.setText("New Game!");
+                blackp.setText(Xs + "");
+                whitep.setText(Os + "");
+                changeBoard("reset");
             }
         });
 
@@ -75,11 +85,12 @@ public class GameEngine extends AppCompatActivity {
             public void onClick(View v) {
                 choice = 'X';
                 revChoice = 'O';
-                display.setText("CPU's turn(" + choice + "): ");
+                display.setText("CPU's turn!");
                 blacks.setText("P");
                 whites.setText("CPU");
                 blacks.setClickable(false);
                 whites.setClickable(false);
+                pTurn = true;
                 AITurn(revChoice, choice, display);
             }
         });
@@ -87,14 +98,14 @@ public class GameEngine extends AppCompatActivity {
             public void onClick(View v) {
                 choice = 'O';
                 revChoice = 'X';
-                display.setText("Player's turn(" + choice + "): ");
+                display.setText("Your turn!");
                 blacks.setText("CPU");
                 whites.setText("P");
                 blacks.setClickable(false);
                 whites.setClickable(false);
                 pTurn = true;
                 playersTurn(choice, display, "R");
-                changeBoard();
+                changeBoard("update");
 
             }
         });
@@ -104,11 +115,11 @@ public class GameEngine extends AppCompatActivity {
                 if (hints) {
                     hints = false;
                     onoff.setText("off");
-                    changeBoard();
+                    changeBoard("update");
                 } else {
                     hints = true;
                     onoff.setText("on");
-                    changeBoard();
+                    changeBoard("update");
                 }
 
             }
@@ -829,14 +840,13 @@ public class GameEngine extends AppCompatActivity {
 
     public void playersTurn(char choice, TextView display, String position) {
         if (!finish) {
-            display.setText("Player's turn(" + choice + "): ");
             if (move.possibleMoves(z, choice)) {
                 row = 0;
                 column = 0;
                 endGame = 0;
-//            z.printWithMap(z);
-                changeBoard();
+                changeBoard("update");
                 if (!position.equals("R")) {
+                    display.setText("Your turn!");
                     row = Integer.parseInt(String.valueOf(position.charAt(0)));
                     column = Integer.parseInt(String.valueOf(position.charAt(1)));
 
@@ -845,19 +855,18 @@ public class GameEngine extends AppCompatActivity {
 
                         display.setText("Can't move there!");
                     } else {
-
                         for (int x = 0; x < 8; x++) {
                             for (int y = 0; y < 8; y++) {
                                 z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
                             }
                         }
-                        changeBoard();
+                        changeBoard("update");
                         liveScore(z);
+
                         AITurn(revChoice, choice, display);
                     }
                 }
             } else {
-
                 display.setText("No moves to make.");
                 endGame++;
                 liveScore(z);
@@ -871,9 +880,10 @@ public class GameEngine extends AppCompatActivity {
 
     public void AITurn(char choice, char revChoice, TextView display) {
         if (!finish) {
-            display.setText("CPU's turn(" + revChoice + "): ");
-            changeBoard();
+
+            changeBoard("update");
             if (move.possibleMoves(z, choice)) {
+                display.setText("CPU's turn!");
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
                 for (int x = 0; x < 8; x++) {
@@ -881,14 +891,12 @@ public class GameEngine extends AppCompatActivity {
                         z.currentBoard[x][y] = temp.currentBoard[x][y];
                     }
                 }
-
-                display.setText("CPU Played.");
                 liveScore(z);
                 playersTurn(revChoice, display, "R");
 
             } else {
 
-                display.setText("No moves to make for CPU.");
+                display.setText("CPU can't make a move!");
                 endGame++;
                 if (endGame >= 2 || Os + Xs == 64) {
                     calculateScore(z, choice, display);
@@ -919,8 +927,8 @@ public class GameEngine extends AppCompatActivity {
     private void liveScore(Board B) {
         Xs = 0;
         Os = 0;
-        final TextView blackp = findViewById(R.id.black_points);
-        final TextView whitep = findViewById(R.id.white_points);
+        TextView blackp = findViewById(R.id.black_points);
+        TextView whitep = findViewById(R.id.white_points);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (z.currentBoard[i][j] == 'X') Xs++;
@@ -931,7 +939,7 @@ public class GameEngine extends AppCompatActivity {
         whitep.setText(Os + "");
     }
 
-    public void changeBoard() {
+    public void changeBoard(String reason) {
         final ImageButton b00 = findViewById(R.id.b00);
         final ImageButton b01 = findViewById(R.id.b01);
         final ImageButton b02 = findViewById(R.id.b02);
@@ -1007,400 +1015,533 @@ public class GameEngine extends AppCompatActivity {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 position = i + "" + j;
-                if (z.currentBoard[i][j] == 'O') {
-                    if (position.equals("00")) {
-                        b00.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("01")) {
-                        b01.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("02")) {
-                        b02.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("03")) {
-                        b03.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("04")) {
-                        b04.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("05")) {
-                        b05.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("06")) {
-                        b06.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("07")) {
-                        b07.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("10")) {
-                        b10.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("11")) {
-                        b11.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("12")) {
-                        b12.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("13")) {
-                        b13.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("14")) {
-                        b14.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("15")) {
-                        b15.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("16")) {
-                        b16.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("17")) {
-                        b17.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("20")) {
-                        b20.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("21")) {
-                        b21.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("22")) {
-                        b22.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("23")) {
-                        b23.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("24")) {
-                        b24.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("25")) {
-                        b25.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("26")) {
-                        b26.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("27")) {
-                        b27.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("30")) {
-                        b30.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("31")) {
-                        b31.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("32")) {
-                        b32.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("33")) {
-                        b33.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("34")) {
-                        b34.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("35")) {
-                        b35.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("36")) {
-                        b36.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("37")) {
-                        b37.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("40")) {
-                        b40.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("41")) {
-                        b41.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("42")) {
-                        b42.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("43")) {
-                        b43.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("44")) {
-                        b44.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("45")) {
-                        b45.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("46")) {
-                        b46.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("47")) {
-                        b47.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("50")) {
-                        b50.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("51")) {
-                        b51.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("52")) {
-                        b52.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("53")) {
-                        b53.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("54")) {
-                        b54.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("55")) {
-                        b55.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("56")) {
-                        b56.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("57")) {
-                        b57.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("60")) {
-                        b60.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("61")) {
-                        b61.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("62")) {
-                        b62.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("63")) {
-                        b63.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("64")) {
-                        b64.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("65")) {
-                        b65.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("66")) {
-                        b66.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("67")) {
-                        b67.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("70")) {
-                        b70.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("71")) {
-                        b71.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("72")) {
-                        b72.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("73")) {
-                        b73.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("74")) {
-                        b74.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("75")) {
-                        b75.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("76")) {
-                        b76.setImageResource(R.drawable.white_shadow);
-                    } else if (position.equals("77")) {
-                        b77.setImageResource(R.drawable.white_shadow);
-                    }
-                } else if (z.currentBoard[i][j] == 'X') {
-                    if (position.equals("00")) {
-                        b00.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("01")) {
-                        b01.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("02")) {
-                        b02.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("03")) {
-                        b03.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("04")) {
-                        b04.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("05")) {
-                        b05.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("06")) {
-                        b06.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("07")) {
-                        b07.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("10")) {
-                        b10.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("11")) {
-                        b11.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("12")) {
-                        b12.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("13")) {
-                        b13.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("14")) {
-                        b14.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("15")) {
-                        b15.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("16")) {
-                        b16.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("17")) {
-                        b17.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("20")) {
-                        b20.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("21")) {
-                        b21.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("22")) {
-                        b22.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("23")) {
-                        b23.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("24")) {
-                        b24.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("25")) {
-                        b25.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("26")) {
-                        b26.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("27")) {
-                        b27.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("30")) {
-                        b30.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("31")) {
-                        b31.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("32")) {
-                        b32.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("33")) {
-                        b33.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("34")) {
-                        b34.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("35")) {
-                        b35.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("36")) {
-                        b36.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("37")) {
-                        b37.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("40")) {
-                        b40.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("41")) {
-                        b41.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("42")) {
-                        b42.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("43")) {
-                        b43.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("44")) {
-                        b44.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("45")) {
-                        b45.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("46")) {
-                        b46.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("47")) {
-                        b47.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("50")) {
-                        b50.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("51")) {
-                        b51.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("52")) {
-                        b52.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("53")) {
-                        b53.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("54")) {
-                        b54.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("55")) {
-                        b55.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("56")) {
-                        b56.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("57")) {
-                        b57.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("60")) {
-                        b60.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("61")) {
-                        b61.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("62")) {
-                        b62.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("63")) {
-                        b63.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("64")) {
-                        b64.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("65")) {
-                        b65.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("66")) {
-                        b66.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("67")) {
-                        b67.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("70")) {
-                        b70.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("71")) {
-                        b71.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("72")) {
-                        b72.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("73")) {
-                        b73.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("74")) {
-                        b74.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("75")) {
-                        b75.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("76")) {
-                        b76.setImageResource(R.drawable.black_shadow);
-                    } else if (position.equals("77")) {
-                        b77.setImageResource(R.drawable.black_shadow);
-                    }
-                } else if (z.Map[i][j] == 'Z' && hints) {
 
-                    if (position.equals("00")) {
-                        b00.setImageResource(R.drawable.hint);
-                    } else if (position.equals("01")) {
-                        b01.setImageResource(R.drawable.hint);
-                    } else if (position.equals("02")) {
-                        b02.setImageResource(R.drawable.hint);
-                    } else if (position.equals("03")) {
-                        b03.setImageResource(R.drawable.hint);
-                    } else if (position.equals("04")) {
-                        b04.setImageResource(R.drawable.hint);
-                    } else if (position.equals("05")) {
-                        b05.setImageResource(R.drawable.hint);
-                    } else if (position.equals("06")) {
-                        b06.setImageResource(R.drawable.hint);
-                    } else if (position.equals("07")) {
-                        b07.setImageResource(R.drawable.hint);
-                    } else if (position.equals("10")) {
-                        b10.setImageResource(R.drawable.hint);
-                    } else if (position.equals("11")) {
-                        b11.setImageResource(R.drawable.hint);
-                    } else if (position.equals("12")) {
-                        b12.setImageResource(R.drawable.hint);
-                    } else if (position.equals("13")) {
-                        b13.setImageResource(R.drawable.hint);
-                    } else if (position.equals("14")) {
-                        b14.setImageResource(R.drawable.hint);
-                    } else if (position.equals("15")) {
-                        b15.setImageResource(R.drawable.hint);
-                    } else if (position.equals("16")) {
-                        b16.setImageResource(R.drawable.hint);
-                    } else if (position.equals("17")) {
-                        b17.setImageResource(R.drawable.hint);
-                    } else if (position.equals("20")) {
-                        b20.setImageResource(R.drawable.hint);
-                    } else if (position.equals("21")) {
-                        b21.setImageResource(R.drawable.hint);
-                    } else if (position.equals("22")) {
-                        b22.setImageResource(R.drawable.hint);
-                    } else if (position.equals("23")) {
-                        b23.setImageResource(R.drawable.hint);
-                    } else if (position.equals("24")) {
-                        b24.setImageResource(R.drawable.hint);
-                    } else if (position.equals("25")) {
-                        b25.setImageResource(R.drawable.hint);
-                    } else if (position.equals("26")) {
-                        b26.setImageResource(R.drawable.hint);
-                    } else if (position.equals("27")) {
-                        b27.setImageResource(R.drawable.hint);
-                    } else if (position.equals("30")) {
-                        b30.setImageResource(R.drawable.hint);
-                    } else if (position.equals("31")) {
-                        b31.setImageResource(R.drawable.hint);
-                    } else if (position.equals("32")) {
-                        b32.setImageResource(R.drawable.hint);
-                    } else if (position.equals("33")) {
-                        b33.setImageResource(R.drawable.hint);
-                    } else if (position.equals("34")) {
-                        b34.setImageResource(R.drawable.hint);
-                    } else if (position.equals("35")) {
-                        b35.setImageResource(R.drawable.hint);
-                    } else if (position.equals("36")) {
-                        b36.setImageResource(R.drawable.hint);
-                    } else if (position.equals("37")) {
-                        b37.setImageResource(R.drawable.hint);
-                    } else if (position.equals("40")) {
-                        b40.setImageResource(R.drawable.hint);
-                    } else if (position.equals("41")) {
-                        b41.setImageResource(R.drawable.hint);
-                    } else if (position.equals("42")) {
-                        b42.setImageResource(R.drawable.hint);
-                    } else if (position.equals("43")) {
-                        b43.setImageResource(R.drawable.hint);
-                    } else if (position.equals("44")) {
-                        b44.setImageResource(R.drawable.hint);
-                    } else if (position.equals("45")) {
-                        b45.setImageResource(R.drawable.hint);
-                    } else if (position.equals("46")) {
-                        b46.setImageResource(R.drawable.hint);
-                    } else if (position.equals("47")) {
-                        b47.setImageResource(R.drawable.hint);
-                    } else if (position.equals("50")) {
-                        b50.setImageResource(R.drawable.hint);
-                    } else if (position.equals("51")) {
-                        b51.setImageResource(R.drawable.hint);
-                    } else if (position.equals("52")) {
-                        b52.setImageResource(R.drawable.hint);
-                    } else if (position.equals("53")) {
-                        b53.setImageResource(R.drawable.hint);
-                    } else if (position.equals("54")) {
-                        b54.setImageResource(R.drawable.hint);
-                    } else if (position.equals("55")) {
-                        b55.setImageResource(R.drawable.hint);
-                    } else if (position.equals("56")) {
-                        b56.setImageResource(R.drawable.hint);
-                    } else if (position.equals("57")) {
-                        b57.setImageResource(R.drawable.hint);
-                    } else if (position.equals("60")) {
-                        b60.setImageResource(R.drawable.hint);
-                    } else if (position.equals("61")) {
-                        b61.setImageResource(R.drawable.hint);
-                    } else if (position.equals("62")) {
-                        b62.setImageResource(R.drawable.hint);
-                    } else if (position.equals("63")) {
-                        b63.setImageResource(R.drawable.hint);
-                    } else if (position.equals("64")) {
-                        b64.setImageResource(R.drawable.hint);
-                    } else if (position.equals("65")) {
-                        b65.setImageResource(R.drawable.hint);
-                    } else if (position.equals("66")) {
-                        b66.setImageResource(R.drawable.hint);
-                    } else if (position.equals("67")) {
-                        b67.setImageResource(R.drawable.hint);
-                    } else if (position.equals("70")) {
-                        b70.setImageResource(R.drawable.hint);
-                    } else if (position.equals("71")) {
-                        b71.setImageResource(R.drawable.hint);
-                    } else if (position.equals("72")) {
-                        b72.setImageResource(R.drawable.hint);
-                    } else if (position.equals("73")) {
-                        b73.setImageResource(R.drawable.hint);
-                    } else if (position.equals("74")) {
-                        b74.setImageResource(R.drawable.hint);
-                    } else if (position.equals("75")) {
-                        b75.setImageResource(R.drawable.hint);
-                    } else if (position.equals("76")) {
-                        b76.setImageResource(R.drawable.hint);
-                    } else if (position.equals("77")) {
-                        b77.setImageResource(R.drawable.hint);
+                if (reason.equals("update")) {
+                    if (z.currentBoard[i][j] == 'O') {
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.white_shadow);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.white_shadow);
+                        }
+                    } else if (z.currentBoard[i][j] == 'X') {
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.black_shadow);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.black_shadow);
+                        }
+                    } else if (z.Map[i][j] == 'Z' && hints) {
+
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.hint);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.hint);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.hint);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.hint);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.hint);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.hint);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.hint);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.hint);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.hint);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.hint);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.hint);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.hint);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.hint);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.hint);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.hint);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.hint);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.hint);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.hint);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.hint);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.hint);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.hint);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.hint);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.hint);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.hint);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.hint);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.hint);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.hint);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.hint);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.hint);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.hint);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.hint);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.hint);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.hint);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.hint);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.hint);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.hint);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.hint);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.hint);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.hint);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.hint);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.hint);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.hint);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.hint);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.hint);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.hint);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.hint);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.hint);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.hint);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.hint);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.hint);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.hint);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.hint);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.hint);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.hint);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.hint);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.hint);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.hint);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.hint);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.hint);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.hint);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.hint);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.hint);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.hint);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.hint);
+                        }
+
+                    } else if (z.Map[i][j] == ' ' || (z.Map[i][j] == 'Z' && !hints)) {
+
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.transparent);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.transparent);
+                        }
                     }
-
-                } else if (z.Map[i][j] == ' ' || (z.Map[i][j] == 'Z' && !hints)) {
-
+                } else if (reason.equals("reset")) {
                     if (position.equals("00")) {
                         b00.setImageResource(R.drawable.transparent);
                     } else if (position.equals("01")) {
@@ -1456,9 +1597,9 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("32")) {
                         b32.setImageResource(R.drawable.transparent);
                     } else if (position.equals("33")) {
-                        b33.setImageResource(R.drawable.transparent);
+                        b33.setImageResource(R.drawable.white_shadow);
                     } else if (position.equals("34")) {
-                        b34.setImageResource(R.drawable.transparent);
+                        b34.setImageResource(R.drawable.black_shadow);
                     } else if (position.equals("35")) {
                         b35.setImageResource(R.drawable.transparent);
                     } else if (position.equals("36")) {
@@ -1472,9 +1613,9 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("42")) {
                         b42.setImageResource(R.drawable.transparent);
                     } else if (position.equals("43")) {
-                        b43.setImageResource(R.drawable.transparent);
+                        b43.setImageResource(R.drawable.black_shadow);
                     } else if (position.equals("44")) {
-                        b44.setImageResource(R.drawable.transparent);
+                        b44.setImageResource(R.drawable.white_shadow);
                     } else if (position.equals("45")) {
                         b45.setImageResource(R.drawable.transparent);
                     } else if (position.equals("46")) {
@@ -1530,7 +1671,6 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.transparent);
                     }
-
                 }
             }
         }
