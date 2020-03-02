@@ -24,8 +24,7 @@ public class GameEngine extends AppCompatActivity {
     private boolean pTurn = false;
     private boolean finish = false;
     private boolean hints = false;
-    private boolean notDoneMove = true;
-    private int depth = 3;
+    private int depth = 1;
     private boolean delayThat = true;
 
 
@@ -46,7 +45,7 @@ public class GameEngine extends AppCompatActivity {
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pTurn = false;
-                depth = 3;
+                depth = 1;
                 difficulty.setText("EASY");
                 hints = false;
                 onoff.setText("off");
@@ -77,12 +76,14 @@ public class GameEngine extends AppCompatActivity {
 
         findViewById(R.id.easy_hard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (depth == 3) {
-                    depth = 5;
-                    difficulty.setText("HARD");
-                } else {
-                    depth = 3;
+                depth = depth + 2;
+                if (depth == 7) {
+                    depth = 1;
                     difficulty.setText("EASY");
+                } else if (depth == 3) {
+                    difficulty.setText("HARD");
+                } else if (depth == 5) {
+                    difficulty.setText("PRO");
                 }
             }
         });
@@ -886,7 +887,7 @@ public class GameEngine extends AppCompatActivity {
                                     AITurn(revChoice, cho, disp);
                                 }
                             }, 2000);
-                        } else{
+                        } else {
                             AITurn(revChoice, choice, display);
                         }
                     }
