@@ -2,6 +2,7 @@ package boardgame.reversi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class GameEngine extends AppCompatActivity {
 
     int Xs = 0, Os = 0;
-    static char choice = ' ';
+    char choice = ' ';
     static char revChoice = ' ';
     public static int row, column, endGame = 0, Xnum = 0, Onum = 0;
     static Moves move = new Moves();
@@ -65,7 +66,7 @@ public class GameEngine extends AppCompatActivity {
                 display.setText("New Game!");
                 blackp.setText(Xs + "");
                 whitep.setText(Os + "");
-                changeBoard("reset");
+                changeBoard("reset", false);
             }
         });
 
@@ -105,7 +106,7 @@ public class GameEngine extends AppCompatActivity {
                 whites.setClickable(false);
                 pTurn = true;
                 playersTurn(choice, display, "R");
-                changeBoard("update");
+                changeBoard("update", false);
 
             }
         });
@@ -115,11 +116,11 @@ public class GameEngine extends AppCompatActivity {
                 if (hints) {
                     hints = false;
                     onoff.setText("off");
-                    changeBoard("update");
+                    changeBoard("update", false);
                 } else {
                     hints = true;
                     onoff.setText("on");
-                    changeBoard("update");
+                    changeBoard("update", false);
                 }
 
             }
@@ -844,9 +845,9 @@ public class GameEngine extends AppCompatActivity {
                 row = 0;
                 column = 0;
                 endGame = 0;
-                changeBoard("update");
+                changeBoard("update", false);
                 if (!position.equals("R")) {
-                    display.setText("Your turn!");
+                    display.setText("CPU's turn!");
                     row = Integer.parseInt(String.valueOf(position.charAt(0)));
                     column = Integer.parseInt(String.valueOf(position.charAt(1)));
 
@@ -860,10 +861,16 @@ public class GameEngine extends AppCompatActivity {
                                 z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
                             }
                         }
-                        changeBoard("update");
+                        changeBoard("update", true);
                         liveScore(z);
-
-                        AITurn(revChoice, choice, display);
+                        final char cho = choice;
+                        final TextView disp = display;
+                        Handler h = new Handler();
+                        h.postDelayed(new Runnable() {
+                            public void run() {
+                                AITurn(revChoice, cho, disp);
+                            }
+                        }, 2500);
                     }
                 }
             } else {
@@ -880,10 +887,10 @@ public class GameEngine extends AppCompatActivity {
 
     public void AITurn(char choice, char revChoice, TextView display) {
         if (!finish) {
-
-            changeBoard("update");
+            display.setText("Your turn!");
+            changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
-                display.setText("CPU's turn!");
+
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
                 for (int x = 0; x < 8; x++) {
@@ -919,7 +926,7 @@ public class GameEngine extends AppCompatActivity {
             } else if (Xnum < Onum) {
                 if (choice == 'X') display.setText("You Won! Score: " + Xnum + " - " + Onum);
                 else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
-            } else display.setText("Draw! Score:" + Xnum + " - " + Onum);
+            } else display.setText("Draw! Score: " + Xnum + " - " + Onum);
             finish = true;
         }
     }
@@ -939,7 +946,8 @@ public class GameEngine extends AppCompatActivity {
         whitep.setText(Os + "");
     }
 
-    public void changeBoard(String reason) {
+    public void changeBoard(String reason, boolean CPUsTurn) {
+        boolean hintsWereOpen = false;
         final ImageButton b00 = findViewById(R.id.b00);
         final ImageButton b01 = findViewById(R.id.b01);
         final ImageButton b02 = findViewById(R.id.b02);
@@ -1012,6 +1020,12 @@ public class GameEngine extends AppCompatActivity {
         final ImageButton b76 = findViewById(R.id.b76);
         final ImageButton b77 = findViewById(R.id.b77);
         String position = "";
+        if (CPUsTurn) {
+            if (hints) {
+                hints = false;
+                hintsWereOpen = true;
+            }
+        }
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 position = i + "" + j;
@@ -1278,7 +1292,6 @@ public class GameEngine extends AppCompatActivity {
                             b77.setImageResource(R.drawable.black_shadow);
                         }
                     } else if (z.Map[i][j] == 'Z' && hints) {
-
                         if (position.equals("00")) {
                             b00.setImageResource(R.drawable.hint);
                         } else if (position.equals("01")) {
@@ -1408,9 +1421,7 @@ public class GameEngine extends AppCompatActivity {
                         } else if (position.equals("77")) {
                             b77.setImageResource(R.drawable.hint);
                         }
-
                     } else if (z.Map[i][j] == ' ' || (z.Map[i][j] == 'Z' && !hints)) {
-
                         if (position.equals("00")) {
                             b00.setImageResource(R.drawable.transparent);
                         } else if (position.equals("01")) {
@@ -1673,6 +1684,9 @@ public class GameEngine extends AppCompatActivity {
                     }
                 }
             }
+        }
+        if (hintsWereOpen) {
+            hints = true;
         }
     }
 }
