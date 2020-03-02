@@ -16,6 +16,8 @@ public class GameEngine extends AppCompatActivity {
     static Moves move = new Moves();
     static Board z = new Board();
     private boolean pTurn = false;
+    private boolean finish = false;
+    private int depth = 3;
 
 
     @Override
@@ -26,6 +28,7 @@ public class GameEngine extends AppCompatActivity {
         final TextView display = findViewById(R.id.display);
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
+
 
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -646,7 +649,7 @@ public class GameEngine extends AppCompatActivity {
 
                 if (!(z.Map[row][column] == 'Z')) {
 
-                    display.setText("No move in such coordinates.");
+                    display.setText("Can't move there!");
                 } else {
 
                     for (int x = 0; x < 8; x++) {
@@ -655,12 +658,20 @@ public class GameEngine extends AppCompatActivity {
                         }
                     }
                     changeBoard();
+                    liveScore(z);
                     AITurn(revChoice, choice, display);
                 }
             }
         } else {
-            display.setText("No moves to make.");
-            endGame++;
+            if (!finish) {
+                display.setText("No moves to make.");
+                endGame++;
+                liveScore(z);
+                AITurn(revChoice, choice, display);
+                if (endGame >= 2) {
+                    calculateScore(z, choice, display);
+                }
+            }
         }
     }
 
@@ -670,7 +681,7 @@ public class GameEngine extends AppCompatActivity {
         changeBoard();
         if (move.possibleMoves(z, choice)) {
             endGame = 0;
-            Board temp = move.outcomeminimax(z, 5, -10000, 10000, choice, revChoice, true);
+            Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
                     z.currentBoard[x][y] = temp.currentBoard[x][y];
@@ -678,29 +689,51 @@ public class GameEngine extends AppCompatActivity {
             }
 
             display.setText("CPU Played.");
+            liveScore(z);
             playersTurn(revChoice, display, "R");
 
         } else {
-            display.setText("No moves to make.");
-            endGame++;
+            if (!finish) {
+                display.setText("No moves to make for CPU.");
+                endGame++;
+                if (endGame >= 2) {
+                    calculateScore(z, choice, display);
+                }
+            }
         }
     }
 
-    public static void calculateScore(Board B, char choice, TextView display) {
+    public void calculateScore(Board B, char choice, TextView display) {
+        if (!finish) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (z.currentBoard[i][j] == 'X') Xnum++;
+                    else if (z.currentBoard[i][j] == 'O') Onum++;
+                }
+            }
+            if (Xnum > Onum) {
+                if (choice == 'O') display.setText("You Won! Score: " + Xnum + " - " + Onum);
+                else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
+            } else if (Xnum < Onum) {
+                if (choice == 'X') display.setText("You Won! Score: " + Xnum + " - " + Onum);
+                else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
+            } else display.setText("Draw! Score:" + Xnum + " - " + Onum);
+            finish = true;
+        }
+    }
+
+    private void liveScore(Board B) {
+        int Xs = 0, Os = 0;
+        final TextView blackp = findViewById(R.id.black_points);
+        final TextView whitep = findViewById(R.id.white_points);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (z.currentBoard[i][j] == 'X') Xnum++;
-                else if (z.currentBoard[i][j] == 'O') Onum++;
+                if (z.currentBoard[i][j] == 'X') Xs++;
+                else if (z.currentBoard[i][j] == 'O') Os++;
             }
         }
-        B.print(B);
-        if (Xnum > Onum) {
-            if (choice == 'X') display.setText("You Won! Score: " + Xnum + " - " + Onum);
-            else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
-        } else if (Xnum < Onum) {
-            if (choice == 'O') display.setText("You Won! Score: " + Xnum + " - " + Onum);
-            else display.setText("You Lost! Score: " + Xnum + " - " + Onum);
-        } else display.setText("Draw! Score:" + Xnum + " - " + Onum);
+        blackp.setText(Xs + "");
+        whitep.setText(Os + "");
     }
 
     public void changeBoard() {
@@ -1169,7 +1202,7 @@ public class GameEngine extends AppCompatActivity {
                     } else if (position.equals("77")) {
                         b77.setImageResource(R.drawable.hint);
                     }
-                } else if(z.Map[i][j] == ' '){
+                } else if (z.Map[i][j] == ' ') {
                     if (position.equals("00")) {
                         b00.setImageResource(R.drawable.transparent);
                     } else if (position.equals("01")) {
