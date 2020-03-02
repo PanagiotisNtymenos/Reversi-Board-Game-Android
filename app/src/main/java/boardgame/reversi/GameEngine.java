@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class GameEngine extends AppCompatActivity {
     private boolean hints = false;
     private boolean notDoneMove = true;
     private int depth = 3;
+    private boolean delayThat = true;
 
 
     @Override
@@ -39,6 +41,7 @@ public class GameEngine extends AppCompatActivity {
         final Button difficulty = findViewById(R.id.easy_hard);
         final TextView blackp = findViewById(R.id.black_points);
         final TextView whitep = findViewById(R.id.white_points);
+        final Switch fastSlow = findViewById(R.id.fast_slow);
 
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,6 +69,8 @@ public class GameEngine extends AppCompatActivity {
                 display.setText("New Game!");
                 blackp.setText(Xs + "");
                 whitep.setText(Os + "");
+                delayThat = true;
+                fastSlow.setChecked(false);
                 changeBoard("reset", false);
             }
         });
@@ -81,7 +86,15 @@ public class GameEngine extends AppCompatActivity {
                 }
             }
         });
-
+        findViewById(R.id.fast_slow).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (delayThat) {
+                    delayThat = false;
+                } else {
+                    delayThat = true;
+                }
+            }
+        });
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 choice = 'X';
@@ -863,14 +876,19 @@ public class GameEngine extends AppCompatActivity {
                         }
                         changeBoard("update", true);
                         liveScore(z);
-                        final char cho = choice;
-                        final TextView disp = display;
-                        Handler h = new Handler();
-                        h.postDelayed(new Runnable() {
-                            public void run() {
-                                AITurn(revChoice, cho, disp);
-                            }
-                        }, 2500);
+
+                        if (delayThat) {
+                            final char cho = choice;
+                            final TextView disp = display;
+                            Handler h = new Handler();
+                            h.postDelayed(new Runnable() {
+                                public void run() {
+                                    AITurn(revChoice, cho, disp);
+                                }
+                            }, 2000);
+                        } else{
+                            AITurn(revChoice, choice, display);
+                        }
                     }
                 }
             } else {

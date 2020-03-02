@@ -921,5 +921,33 @@
         app:layout_constraintEnd_toStartOf="@+id/reset"
         app:layout_constraintStart_toEndOf="@+id/black" />
 
+    <Switch
+        android:id="@+id/fast_slow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Switch"
+        app:layout_constraintBottom_toTopOf="@+id/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
+
+    <ImageView
+        android:id="@+id/slow"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
+        app:layout_constraintEnd_toStartOf="@+id/fast_slow"
+        app:layout_constraintTop_toTopOf="@+id/fast_slow"
+        app:srcCompat="@drawable/slow" />
+
+    <ImageView
+        android:id="@+id/fast"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
+        app:layout_constraintStart_toEndOf="@+id/fast_slow"
+        app:layout_constraintTop_toTopOf="@+id/fast_slow"
+        app:srcCompat="@drawable/fast" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
