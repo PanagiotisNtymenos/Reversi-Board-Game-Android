@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/game_layout"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -84,7 +84,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/black_overlay"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/game_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -123,7 +123,7 @@
         android:textColor="#000000"
         android:textSize="36sp"
         android:textStyle="normal|bold"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/game_layout"
         app:layout_constraintEnd_toStartOf="@+id/div"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
@@ -136,7 +136,7 @@
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/game_layout"
         app:layout_constraintStart_toEndOf="@+id/div"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
@@ -148,23 +148,26 @@
         android:text=":"
         android:textColor="#000000"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/game_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/display" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="415dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/display" />
+<!--    <View-->
+<!--        android:id="@+id/view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="415dp"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginEnd="4dp"-->
+<!--        android:background="@color/black"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/white"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.6"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/display" />-->
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/game_layout"
@@ -180,6 +183,741 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/display">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/board_view_layout"
+            android:layout_width="395dp"
+            android:layout_height="396dp"
+            android:background="@color/black_overlay"
+            app:layout_constraintBottom_toBottomOf="@+id/game_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/game_layout">
+
+            <LinearLayout
+                android:id="@+id/v_row1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/v00"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v01"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v02"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v03"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v04"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v05"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v06"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v07"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row1">
+
+                <ImageView
+                    android:id="@+id/v10"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v11"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v12"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v13"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v15"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v16"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v17"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row2">
+
+                <ImageView
+                    android:id="@+id/v20"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v21"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v22"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v23"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v24"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v25"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v26"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v27"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row3">
+
+                <ImageView
+                    android:id="@+id/v30"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v31"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v32"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v33"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v34"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v35"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v36"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v37"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row4">
+
+                <ImageView
+                    android:id="@+id/v40"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v41"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v42"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v43"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v44"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v45"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v46"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v47"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row6"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row5">
+
+                <ImageView
+                    android:id="@+id/v50"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v51"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v52"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v53"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v54"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v55"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v56"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v57"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row7"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row6">
+
+                <ImageView
+                    android:id="@+id/v60"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v61"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v62"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v63"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v64"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v65"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v66"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v67"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_row8"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_row7">
+
+                <ImageView
+                    android:id="@+id/v70"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v71"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v72"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v73"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v74"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v75"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v76"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/darkgreen"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+
+                <ImageView
+                    android:id="@+id/v77"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/green"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/transparent" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/row1"
@@ -935,6 +1673,7 @@
         android:id="@+id/slow"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
         app:layout_constraintEnd_toStartOf="@+id/fast_slow"
         app:layout_constraintTop_toTopOf="@+id/fast_slow"
@@ -944,6 +1683,7 @@
         android:id="@+id/fast"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
         app:layout_constraintStart_toEndOf="@+id/fast_slow"
         app:layout_constraintTop_toTopOf="@+id/fast_slow"

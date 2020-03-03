@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameEngine extends AppCompatActivity {
 
@@ -44,7 +45,8 @@ public class GameEngine extends AppCompatActivity {
         final ImageView fast = findViewById(R.id.fast);
         final ImageView slow = findViewById(R.id.slow);
         final ImageView sound = findViewById(R.id.sound);
-
+        final ImageButton reset = findViewById(R.id.reset);
+        final ConstraintLayout board = findViewById(R.id.game_layout);
         findViewById(R.id.v_dis).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (true) {
@@ -209,6 +211,7 @@ public class GameEngine extends AppCompatActivity {
                 whitep.setText(Os + "");
                 changeBoard("reset", false);
                 if (!mute) reset_sound.start();
+                reset.animate().rotation(reset.getRotation()-360).start();
             }
         });
         findViewById(R.id.sound).setOnClickListener(new View.OnClickListener() {
@@ -595,6 +598,7 @@ public class GameEngine extends AppCompatActivity {
                     findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
+                findViewById(R.id.b32).animate().rotationXBy(findViewById(R.id.b32).getRotation()-180).start();
             }
         });
         findViewById(R.id.b33).setOnClickListener(new View.OnClickListener() {
