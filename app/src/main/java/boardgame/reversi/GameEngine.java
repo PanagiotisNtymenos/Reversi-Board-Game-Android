@@ -53,7 +53,7 @@ public class GameEngine extends AppCompatActivity {
         final ImageView slow = findViewById(R.id.slow);
         final ImageView sound = findViewById(R.id.sound);
         final ImageButton reset = findViewById(R.id.reset);
-        final ConstraintLayout board = findViewById(R.id.game_layout);
+
         findViewById(R.id.v_dis).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (true) {
@@ -314,12 +314,7 @@ public class GameEngine extends AppCompatActivity {
         findViewById(R.id.animation).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 c++;
-                if (c == 1) {
-                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
-                } else if (c == 2) {
-                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
-                } else {
-                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
+                if (c == 5) {
                     c = 0;
                 }
 
@@ -1600,7 +1595,17 @@ public class GameEngine extends AppCompatActivity {
         final ImageView b76 = findViewById(R.id.b76);
         final ImageView b77 = findViewById(R.id.b77);
         String position = "";
-        blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
+        if (c == 1) {
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+        } else if (c == 2) {
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.fadein);
+        } else if (c == 3) {
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.flip);
+        } else if (c == 4) {
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.lefttoright);
+        } else {
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
+        }
         if (CPUsTurn) {
             if (hints) {
                 hints = false;
