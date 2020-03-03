@@ -1,9 +1,12 @@
 package boardgame.reversi;
 
+import android.graphics.drawable.Animatable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ public class GameEngine extends AppCompatActivity {
     public static int row, column, endGame = 0, Xnum = 0, Onum = 0;
     static Moves move = new Moves();
     static Board z = new Board();
+    public char[][] currentBoardTemp = new char[8][8];
     private boolean pTurn = false;
     private boolean finish = false;
     private boolean hints = false;
@@ -211,7 +215,7 @@ public class GameEngine extends AppCompatActivity {
                 whitep.setText(Os + "");
                 changeBoard("reset", false);
                 if (!mute) reset_sound.start();
-                reset.animate().rotation(reset.getRotation()-360).start();
+                reset.animate().rotation(reset.getRotation() - 360).start();
             }
         });
         findViewById(R.id.sound).setOnClickListener(new View.OnClickListener() {
@@ -290,14 +294,12 @@ public class GameEngine extends AppCompatActivity {
                     if (!mute) hint_sound_off.start();
                     hints = false;
                     onoff.setText("off");
-                    changeBoard("update", false);
                 } else {
                     if (!mute) hint_sound.start();
                     hints = true;
                     onoff.setText("on");
-                    changeBoard("update", false);
                 }
-
+                showHints();
             }
         });
         findViewById(R.id.b00).setOnClickListener(new View.OnClickListener() {
@@ -598,7 +600,6 @@ public class GameEngine extends AppCompatActivity {
                     findViewById(R.id.black).performClick();
                 }
                 pTurn = true;
-                findViewById(R.id.b32).animate().rotationXBy(findViewById(R.id.b32).getRotation()-180).start();
             }
         });
         findViewById(R.id.b33).setOnClickListener(new View.OnClickListener() {
@@ -1020,7 +1021,6 @@ public class GameEngine extends AppCompatActivity {
                 row = 0;
                 column = 0;
                 endGame = 0;
-                changeBoard("update", false);
                 if (!position.equals("R")) {
                     display.setText("CPU's turn!");
                     row = Integer.parseInt(String.valueOf(position.charAt(0)));
@@ -1031,6 +1031,11 @@ public class GameEngine extends AppCompatActivity {
 
                         display.setText("Can't move there!");
                     } else {
+                        for (int x = 0; x < 8; x++) {
+                            for (int y = 0; y < 8; y++) {
+                                currentBoardTemp[x][y] = z.currentBoard[x][y];
+                            }
+                        }
                         if (!mute) roll.start();
                         for (int x = 0; x < 8; x++) {
                             for (int y = 0; y < 8; y++) {
@@ -1041,7 +1046,6 @@ public class GameEngine extends AppCompatActivity {
                         virtual_disable.performClick();
                         changeBoard("update", true);
                         liveScore(z);
-
                         if (delayThat) {
                             final char cho = choice;
                             final TextView disp = display;
@@ -1058,6 +1062,9 @@ public class GameEngine extends AppCompatActivity {
                         }
 
                     }
+                }else{
+                    changeBoard("update", false);
+                    showHints();
                 }
             } else {
                 display.setText("No moves to make.");
@@ -1075,11 +1082,16 @@ public class GameEngine extends AppCompatActivity {
         MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
         if (!finish) {
             display.setText("Your turn!");
-            changeBoard("update", false);
+//            changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
                 if (!mute) roll.start();
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
+                for (int x = 0; x < 8; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        currentBoardTemp[x][y] = z.currentBoard[x][y];
+                    }
+                }
                 for (int x = 0; x < 8; x++) {
                     for (int y = 0; y < 8; y++) {
                         z.currentBoard[x][y] = temp.currentBoard[x][y];
@@ -1148,8 +1160,7 @@ public class GameEngine extends AppCompatActivity {
         whitep.setText(Os + "");
     }
 
-    public void changeBoard(String reason, boolean CPUsTurn) {
-        boolean hintsWereOpen = false;
+    private void showHints() {
         final ImageButton b00 = findViewById(R.id.b00);
         final ImageButton b01 = findViewById(R.id.b01);
         final ImageButton b02 = findViewById(R.id.b02);
@@ -1221,279 +1232,12 @@ public class GameEngine extends AppCompatActivity {
         final ImageButton b75 = findViewById(R.id.b75);
         final ImageButton b76 = findViewById(R.id.b76);
         final ImageButton b77 = findViewById(R.id.b77);
-        String position = "";
-        if (CPUsTurn) {
-            if (hints) {
-                hints = false;
-                hintsWereOpen = true;
-            }
-        }
+        String position;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 position = i + "" + j;
-
-                if (reason.equals("update")) {
-                    if (z.currentBoard[i][j] == 'O') {
-                        if (position.equals("00")) {
-                            b00.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("01")) {
-                            b01.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("02")) {
-                            b02.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("03")) {
-                            b03.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("04")) {
-                            b04.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("05")) {
-                            b05.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("06")) {
-                            b06.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("07")) {
-                            b07.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("10")) {
-                            b10.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("11")) {
-                            b11.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("12")) {
-                            b12.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("13")) {
-                            b13.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("14")) {
-                            b14.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("15")) {
-                            b15.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("16")) {
-                            b16.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("17")) {
-                            b17.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("20")) {
-                            b20.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("21")) {
-                            b21.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("22")) {
-                            b22.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("23")) {
-                            b23.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("24")) {
-                            b24.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("25")) {
-                            b25.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("26")) {
-                            b26.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("27")) {
-                            b27.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("30")) {
-                            b30.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("31")) {
-                            b31.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("32")) {
-                            b32.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("33")) {
-                            b33.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("34")) {
-                            b34.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("35")) {
-                            b35.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("36")) {
-                            b36.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("37")) {
-                            b37.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("40")) {
-                            b40.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("41")) {
-                            b41.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("42")) {
-                            b42.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("43")) {
-                            b43.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("44")) {
-                            b44.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("45")) {
-                            b45.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("46")) {
-                            b46.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("47")) {
-                            b47.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("50")) {
-                            b50.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("51")) {
-                            b51.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("52")) {
-                            b52.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("53")) {
-                            b53.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("54")) {
-                            b54.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("55")) {
-                            b55.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("56")) {
-                            b56.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("57")) {
-                            b57.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("60")) {
-                            b60.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("61")) {
-                            b61.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("62")) {
-                            b62.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("63")) {
-                            b63.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("64")) {
-                            b64.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("65")) {
-                            b65.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("66")) {
-                            b66.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("67")) {
-                            b67.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("70")) {
-                            b70.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("71")) {
-                            b71.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("72")) {
-                            b72.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("73")) {
-                            b73.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("74")) {
-                            b74.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("75")) {
-                            b75.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("76")) {
-                            b76.setImageResource(R.drawable.white_shadow);
-                        } else if (position.equals("77")) {
-                            b77.setImageResource(R.drawable.white_shadow);
-                        }
-                    } else if (z.currentBoard[i][j] == 'X') {
-                        if (position.equals("00")) {
-                            b00.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("01")) {
-                            b01.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("02")) {
-                            b02.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("03")) {
-                            b03.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("04")) {
-                            b04.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("05")) {
-                            b05.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("06")) {
-                            b06.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("07")) {
-                            b07.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("10")) {
-                            b10.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("11")) {
-                            b11.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("12")) {
-                            b12.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("13")) {
-                            b13.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("14")) {
-                            b14.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("15")) {
-                            b15.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("16")) {
-                            b16.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("17")) {
-                            b17.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("20")) {
-                            b20.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("21")) {
-                            b21.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("22")) {
-                            b22.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("23")) {
-                            b23.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("24")) {
-                            b24.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("25")) {
-                            b25.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("26")) {
-                            b26.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("27")) {
-                            b27.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("30")) {
-                            b30.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("31")) {
-                            b31.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("32")) {
-                            b32.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("33")) {
-                            b33.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("34")) {
-                            b34.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("35")) {
-                            b35.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("36")) {
-                            b36.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("37")) {
-                            b37.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("40")) {
-                            b40.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("41")) {
-                            b41.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("42")) {
-                            b42.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("43")) {
-                            b43.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("44")) {
-                            b44.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("45")) {
-                            b45.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("46")) {
-                            b46.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("47")) {
-                            b47.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("50")) {
-                            b50.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("51")) {
-                            b51.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("52")) {
-                            b52.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("53")) {
-                            b53.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("54")) {
-                            b54.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("55")) {
-                            b55.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("56")) {
-                            b56.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("57")) {
-                            b57.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("60")) {
-                            b60.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("61")) {
-                            b61.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("62")) {
-                            b62.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("63")) {
-                            b63.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("64")) {
-                            b64.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("65")) {
-                            b65.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("66")) {
-                            b66.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("67")) {
-                            b67.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("70")) {
-                            b70.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("71")) {
-                            b71.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("72")) {
-                            b72.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("73")) {
-                            b73.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("74")) {
-                            b74.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("75")) {
-                            b75.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("76")) {
-                            b76.setImageResource(R.drawable.black_shadow);
-                        } else if (position.equals("77")) {
-                            b77.setImageResource(R.drawable.black_shadow);
-                        }
-                    } else if (z.Map[i][j] == 'Z' && hints) {
+                if (z.currentBoard[i][j] != 'O' && z.currentBoard[i][j] != 'X') {
+                    if (z.Map[i][j] == 'Z' && hints) {
                         if (position.equals("00")) {
                             b00.setImageResource(R.drawable.hint);
                         } else if (position.equals("01")) {
@@ -1754,6 +1498,613 @@ public class GameEngine extends AppCompatActivity {
                             b77.setImageResource(R.drawable.transparent);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    public void changeBoard(String reason, boolean CPUsTurn) {
+        boolean hintsWereOpen = false;
+        final ImageButton b00 = findViewById(R.id.b00);
+        final ImageButton b01 = findViewById(R.id.b01);
+        final ImageButton b02 = findViewById(R.id.b02);
+        final ImageButton b03 = findViewById(R.id.b03);
+        final ImageButton b04 = findViewById(R.id.b04);
+        final ImageButton b05 = findViewById(R.id.b05);
+        final ImageButton b06 = findViewById(R.id.b06);
+        final ImageButton b07 = findViewById(R.id.b07);
+
+        final ImageButton b10 = findViewById(R.id.b10);
+        final ImageButton b11 = findViewById(R.id.b11);
+        final ImageButton b12 = findViewById(R.id.b12);
+        final ImageButton b13 = findViewById(R.id.b13);
+        final ImageButton b14 = findViewById(R.id.b14);
+        final ImageButton b15 = findViewById(R.id.b15);
+        final ImageButton b16 = findViewById(R.id.b16);
+        final ImageButton b17 = findViewById(R.id.b17);
+
+        final ImageButton b20 = findViewById(R.id.b20);
+        final ImageButton b21 = findViewById(R.id.b21);
+        final ImageButton b22 = findViewById(R.id.b22);
+        final ImageButton b23 = findViewById(R.id.b23);
+        final ImageButton b24 = findViewById(R.id.b24);
+        final ImageButton b25 = findViewById(R.id.b25);
+        final ImageButton b26 = findViewById(R.id.b26);
+        final ImageButton b27 = findViewById(R.id.b27);
+
+        final ImageButton b30 = findViewById(R.id.b30);
+        final ImageButton b31 = findViewById(R.id.b31);
+        final ImageButton b32 = findViewById(R.id.b32);
+        final ImageButton b33 = findViewById(R.id.b33);
+        final ImageButton b34 = findViewById(R.id.b34);
+        final ImageButton b35 = findViewById(R.id.b35);
+        final ImageButton b36 = findViewById(R.id.b36);
+        final ImageButton b37 = findViewById(R.id.b37);
+
+        final ImageButton b40 = findViewById(R.id.b40);
+        final ImageButton b41 = findViewById(R.id.b41);
+        final ImageButton b42 = findViewById(R.id.b42);
+        final ImageButton b43 = findViewById(R.id.b43);
+        final ImageButton b44 = findViewById(R.id.b44);
+        final ImageButton b45 = findViewById(R.id.b45);
+        final ImageButton b46 = findViewById(R.id.b46);
+        final ImageButton b47 = findViewById(R.id.b47);
+
+        final ImageButton b50 = findViewById(R.id.b50);
+        final ImageButton b51 = findViewById(R.id.b51);
+        final ImageButton b52 = findViewById(R.id.b52);
+        final ImageButton b53 = findViewById(R.id.b53);
+        final ImageButton b54 = findViewById(R.id.b54);
+        final ImageButton b55 = findViewById(R.id.b55);
+        final ImageButton b56 = findViewById(R.id.b56);
+        final ImageButton b57 = findViewById(R.id.b57);
+
+        final ImageButton b60 = findViewById(R.id.b60);
+        final ImageButton b61 = findViewById(R.id.b61);
+        final ImageButton b62 = findViewById(R.id.b62);
+        final ImageButton b63 = findViewById(R.id.b63);
+        final ImageButton b64 = findViewById(R.id.b64);
+        final ImageButton b65 = findViewById(R.id.b65);
+        final ImageButton b66 = findViewById(R.id.b66);
+        final ImageButton b67 = findViewById(R.id.b67);
+
+        final ImageButton b70 = findViewById(R.id.b70);
+        final ImageButton b71 = findViewById(R.id.b71);
+        final ImageButton b72 = findViewById(R.id.b72);
+        final ImageButton b73 = findViewById(R.id.b73);
+        final ImageButton b74 = findViewById(R.id.b74);
+        final ImageButton b75 = findViewById(R.id.b75);
+        final ImageButton b76 = findViewById(R.id.b76);
+        final ImageButton b77 = findViewById(R.id.b77);
+        Animation blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+        String position = "";
+        if (CPUsTurn) {
+            if (hints) {
+                hints = false;
+                hintsWereOpen = true;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                position = i + "" + j;
+                if (reason.equals("update")) {
+                    if (z.currentBoard[i][j] == 'O') {
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b00.startAnimation(blink);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b01.startAnimation(blink);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b02.startAnimation(blink);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b03.startAnimation(blink);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b04.startAnimation(blink);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b05.startAnimation(blink);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b06.startAnimation(blink);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b07.startAnimation(blink);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b10.startAnimation(blink);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b11.startAnimation(blink);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b12.startAnimation(blink);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b13.startAnimation(blink);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b14.startAnimation(blink);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b15.startAnimation(blink);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b16.startAnimation(blink);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b17.startAnimation(blink);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b20.startAnimation(blink);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b21.startAnimation(blink);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b22.startAnimation(blink);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b23.startAnimation(blink);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b24.startAnimation(blink);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b25.startAnimation(blink);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b26.startAnimation(blink);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b27.startAnimation(blink);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b30.startAnimation(blink);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b31.startAnimation(blink);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b32.startAnimation(blink);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b33.startAnimation(blink);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b34.startAnimation(blink);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b35.startAnimation(blink);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b36.startAnimation(blink);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b37.startAnimation(blink);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b40.startAnimation(blink);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b41.startAnimation(blink);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b42.startAnimation(blink);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b43.startAnimation(blink);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b44.startAnimation(blink);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b45.startAnimation(blink);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b46.startAnimation(blink);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b47.startAnimation(blink);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b50.startAnimation(blink);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b51.startAnimation(blink);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b52.startAnimation(blink);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b53.startAnimation(blink);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b54.startAnimation(blink);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b55.startAnimation(blink);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b56.startAnimation(blink);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b57.startAnimation(blink);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b60.startAnimation(blink);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b61.startAnimation(blink);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b62.startAnimation(blink);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b63.startAnimation(blink);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b64.startAnimation(blink);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b65.startAnimation(blink);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b66.startAnimation(blink);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b67.startAnimation(blink);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b70.startAnimation(blink);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b71.startAnimation(blink);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b72.startAnimation(blink);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b73.startAnimation(blink);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b74.startAnimation(blink);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b75.startAnimation(blink);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b76.startAnimation(blink);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.white_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b77.startAnimation(blink);
+                        }
+                    } else if (z.currentBoard[i][j] == 'X') {
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b00.startAnimation(blink);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b01.startAnimation(blink);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b02.startAnimation(blink);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b03.startAnimation(blink);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b04.startAnimation(blink);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b05.startAnimation(blink);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b06.startAnimation(blink);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b07.startAnimation(blink);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b10.startAnimation(blink);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b11.startAnimation(blink);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b12.startAnimation(blink);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b13.startAnimation(blink);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b14.startAnimation(blink);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b15.startAnimation(blink);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b16.startAnimation(blink);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b17.startAnimation(blink);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b20.startAnimation(blink);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b21.startAnimation(blink);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b22.startAnimation(blink);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b23.startAnimation(blink);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b24.startAnimation(blink);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b25.startAnimation(blink);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b26.startAnimation(blink);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b27.startAnimation(blink);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b30.startAnimation(blink);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b31.startAnimation(blink);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b32.startAnimation(blink);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b33.startAnimation(blink);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b34.startAnimation(blink);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b35.startAnimation(blink);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b36.startAnimation(blink);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b37.startAnimation(blink);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b40.startAnimation(blink);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b41.startAnimation(blink);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b42.startAnimation(blink);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b43.startAnimation(blink);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b44.startAnimation(blink);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b45.startAnimation(blink);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b46.startAnimation(blink);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b47.startAnimation(blink);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b50.startAnimation(blink);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b51.startAnimation(blink);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b52.startAnimation(blink);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b53.startAnimation(blink);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b54.startAnimation(blink);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b55.startAnimation(blink);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b56.startAnimation(blink);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b57.startAnimation(blink);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b60.startAnimation(blink);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b61.startAnimation(blink);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b62.startAnimation(blink);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b63.startAnimation(blink);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b64.startAnimation(blink);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b65.startAnimation(blink);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b66.startAnimation(blink);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b67.startAnimation(blink);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b70.startAnimation(blink);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b71.startAnimation(blink);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b72.startAnimation(blink);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b73.startAnimation(blink);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b74.startAnimation(blink);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b75.startAnimation(blink);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b76.startAnimation(blink);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.black_shadow);
+                            if (currentBoardTemp[i][j] != z.currentBoard[i][j])
+                                b77.startAnimation(blink);
+                        }
+                    }
                 } else if (reason.equals("reset")) {
                     if (position.equals("00")) {
                         b00.setImageResource(R.drawable.transparent);
@@ -1887,6 +2238,7 @@ public class GameEngine extends AppCompatActivity {
                 }
             }
         }
+        showHints();
         if (hintsWereOpen) {
             hints = true;
         }
