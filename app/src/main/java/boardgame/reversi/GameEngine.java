@@ -1,14 +1,12 @@
 package boardgame.reversi;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Switch;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,11 +29,11 @@ public class GameEngine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.game_activity);
         final MediaPlayer hint_sound = MediaPlayer.create(this, R.raw.hint);
         final MediaPlayer hint_sound_off = MediaPlayer.create(this, R.raw.hintoff);
         final MediaPlayer reset_sound = MediaPlayer.create(this, R.raw.reset);
         final MediaPlayer level_sound = MediaPlayer.create(this, R.raw.level);
-        setContentView(R.layout.game_activity);
         final TextView display = findViewById(R.id.display);
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
@@ -43,15 +41,153 @@ public class GameEngine extends AppCompatActivity {
         final Button difficulty = findViewById(R.id.easy_hard);
         final TextView blackp = findViewById(R.id.black_points);
         final TextView whitep = findViewById(R.id.white_points);
-        final Switch fastSlow = findViewById(R.id.fast_slow);
+        final ImageView fast = findViewById(R.id.fast);
+        final ImageView slow = findViewById(R.id.slow);
+        final ImageView sound = findViewById(R.id.sound);
 
+        findViewById(R.id.v_dis).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (true) {
+                    findViewById(R.id.b00).setClickable(false);
+                    findViewById(R.id.b01).setClickable(false);
+                    findViewById(R.id.b02).setClickable(false);
+                    findViewById(R.id.b03).setClickable(false);
+                    findViewById(R.id.b04).setClickable(false);
+                    findViewById(R.id.b05).setClickable(false);
+                    findViewById(R.id.b06).setClickable(false);
+                    findViewById(R.id.b07).setClickable(false);
+                    findViewById(R.id.b10).setClickable(false);
+                    findViewById(R.id.b11).setClickable(false);
+                    findViewById(R.id.b12).setClickable(false);
+                    findViewById(R.id.b13).setClickable(false);
+                    findViewById(R.id.b14).setClickable(false);
+                    findViewById(R.id.b15).setClickable(false);
+                    findViewById(R.id.b16).setClickable(false);
+                    findViewById(R.id.b17).setClickable(false);
+                    findViewById(R.id.b20).setClickable(false);
+                    findViewById(R.id.b21).setClickable(false);
+                    findViewById(R.id.b22).setClickable(false);
+                    findViewById(R.id.b23).setClickable(false);
+                    findViewById(R.id.b24).setClickable(false);
+                    findViewById(R.id.b25).setClickable(false);
+                    findViewById(R.id.b26).setClickable(false);
+                    findViewById(R.id.b27).setClickable(false);
+                    findViewById(R.id.b30).setClickable(false);
+                    findViewById(R.id.b31).setClickable(false);
+                    findViewById(R.id.b32).setClickable(false);
+                    findViewById(R.id.b33).setClickable(false);
+                    findViewById(R.id.b34).setClickable(false);
+                    findViewById(R.id.b35).setClickable(false);
+                    findViewById(R.id.b36).setClickable(false);
+                    findViewById(R.id.b37).setClickable(false);
+                    findViewById(R.id.b40).setClickable(false);
+                    findViewById(R.id.b41).setClickable(false);
+                    findViewById(R.id.b42).setClickable(false);
+                    findViewById(R.id.b43).setClickable(false);
+                    findViewById(R.id.b44).setClickable(false);
+                    findViewById(R.id.b45).setClickable(false);
+                    findViewById(R.id.b46).setClickable(false);
+                    findViewById(R.id.b47).setClickable(false);
+                    findViewById(R.id.b50).setClickable(false);
+                    findViewById(R.id.b51).setClickable(false);
+                    findViewById(R.id.b52).setClickable(false);
+                    findViewById(R.id.b53).setClickable(false);
+                    findViewById(R.id.b54).setClickable(false);
+                    findViewById(R.id.b55).setClickable(false);
+                    findViewById(R.id.b56).setClickable(false);
+                    findViewById(R.id.b57).setClickable(false);
+                    findViewById(R.id.b60).setClickable(false);
+                    findViewById(R.id.b61).setClickable(false);
+                    findViewById(R.id.b62).setClickable(false);
+                    findViewById(R.id.b63).setClickable(false);
+                    findViewById(R.id.b64).setClickable(false);
+                    findViewById(R.id.b65).setClickable(false);
+                    findViewById(R.id.b66).setClickable(false);
+                    findViewById(R.id.b67).setClickable(false);
+                    findViewById(R.id.b70).setClickable(false);
+                    findViewById(R.id.b71).setClickable(false);
+                    findViewById(R.id.b72).setClickable(false);
+                    findViewById(R.id.b73).setClickable(false);
+                    findViewById(R.id.b74).setClickable(false);
+                    findViewById(R.id.b75).setClickable(false);
+                    findViewById(R.id.b76).setClickable(false);
+                    findViewById(R.id.b77).setClickable(false);
+                }
+            }
+        });
+        findViewById(R.id.v_en).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (true) {
+                    findViewById(R.id.b00).setClickable(true);
+                    findViewById(R.id.b01).setClickable(true);
+                    findViewById(R.id.b02).setClickable(true);
+                    findViewById(R.id.b03).setClickable(true);
+                    findViewById(R.id.b04).setClickable(true);
+                    findViewById(R.id.b05).setClickable(true);
+                    findViewById(R.id.b06).setClickable(true);
+                    findViewById(R.id.b07).setClickable(true);
+                    findViewById(R.id.b10).setClickable(true);
+                    findViewById(R.id.b11).setClickable(true);
+                    findViewById(R.id.b12).setClickable(true);
+                    findViewById(R.id.b13).setClickable(true);
+                    findViewById(R.id.b14).setClickable(true);
+                    findViewById(R.id.b15).setClickable(true);
+                    findViewById(R.id.b16).setClickable(true);
+                    findViewById(R.id.b17).setClickable(true);
+                    findViewById(R.id.b20).setClickable(true);
+                    findViewById(R.id.b21).setClickable(true);
+                    findViewById(R.id.b22).setClickable(true);
+                    findViewById(R.id.b23).setClickable(true);
+                    findViewById(R.id.b24).setClickable(true);
+                    findViewById(R.id.b25).setClickable(true);
+                    findViewById(R.id.b26).setClickable(true);
+                    findViewById(R.id.b27).setClickable(true);
+                    findViewById(R.id.b30).setClickable(true);
+                    findViewById(R.id.b31).setClickable(true);
+                    findViewById(R.id.b32).setClickable(true);
+                    findViewById(R.id.b33).setClickable(true);
+                    findViewById(R.id.b34).setClickable(true);
+                    findViewById(R.id.b35).setClickable(true);
+                    findViewById(R.id.b36).setClickable(true);
+                    findViewById(R.id.b37).setClickable(true);
+                    findViewById(R.id.b40).setClickable(true);
+                    findViewById(R.id.b41).setClickable(true);
+                    findViewById(R.id.b42).setClickable(true);
+                    findViewById(R.id.b43).setClickable(true);
+                    findViewById(R.id.b44).setClickable(true);
+                    findViewById(R.id.b45).setClickable(true);
+                    findViewById(R.id.b46).setClickable(true);
+                    findViewById(R.id.b47).setClickable(true);
+                    findViewById(R.id.b50).setClickable(true);
+                    findViewById(R.id.b51).setClickable(true);
+                    findViewById(R.id.b52).setClickable(true);
+                    findViewById(R.id.b53).setClickable(true);
+                    findViewById(R.id.b54).setClickable(true);
+                    findViewById(R.id.b55).setClickable(true);
+                    findViewById(R.id.b56).setClickable(true);
+                    findViewById(R.id.b57).setClickable(true);
+                    findViewById(R.id.b60).setClickable(true);
+                    findViewById(R.id.b61).setClickable(true);
+                    findViewById(R.id.b62).setClickable(true);
+                    findViewById(R.id.b63).setClickable(true);
+                    findViewById(R.id.b64).setClickable(true);
+                    findViewById(R.id.b65).setClickable(true);
+                    findViewById(R.id.b66).setClickable(true);
+                    findViewById(R.id.b67).setClickable(true);
+                    findViewById(R.id.b70).setClickable(true);
+                    findViewById(R.id.b71).setClickable(true);
+                    findViewById(R.id.b72).setClickable(true);
+                    findViewById(R.id.b73).setClickable(true);
+                    findViewById(R.id.b74).setClickable(true);
+                    findViewById(R.id.b75).setClickable(true);
+                    findViewById(R.id.b76).setClickable(true);
+                    findViewById(R.id.b77).setClickable(true);
+                }
+            }
+        });
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pTurn = false;
-                depth = 1;
-                difficulty.setText("EASY");
-                hints = false;
-                onoff.setText("off");
                 Xs = 0;
                 Os = 0;
                 choice = ' ';
@@ -71,16 +207,25 @@ public class GameEngine extends AppCompatActivity {
                 display.setText("New Game!");
                 blackp.setText(Xs + "");
                 whitep.setText(Os + "");
-                delayThat = true;
-                fastSlow.setChecked(false);
                 changeBoard("reset", false);
-                reset_sound.start();
+                if (!mute) reset_sound.start();
             }
         });
-
+        findViewById(R.id.sound).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mute) {
+                    mute = false;
+                    sound.setImageResource(R.drawable.sound_yellow);
+                    level_sound.start();
+                } else {
+                    sound.setImageResource(R.drawable.sound_white);
+                    mute = true;
+                }
+            }
+        });
         findViewById(R.id.easy_hard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                level_sound.start();
+                if (!mute) level_sound.start();
                 depth = depth + 2;
                 if (depth == 7) {
                     depth = 1;
@@ -94,16 +239,21 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.fast_slow).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (!mute) level_sound.start();
                 if (delayThat) {
+                    fast.setImageResource(R.drawable.fast_yellow_shadow);
+                    slow.setImageResource(R.drawable.slow_white_shadow);
                     delayThat = false;
                 } else {
+                    fast.setImageResource(R.drawable.fast_white_shadow);
+                    slow.setImageResource(R.drawable.slow_yellow_shadow);
                     delayThat = true;
                 }
             }
         });
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                hint_sound.start();
+                if (!mute) hint_sound.start();
                 choice = 'X';
                 revChoice = 'O';
                 display.setText("CPU's turn!");
@@ -117,7 +267,7 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.white).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                hint_sound.start();
+                if (!mute) hint_sound.start();
                 choice = 'O';
                 revChoice = 'X';
                 display.setText("Your turn!");
@@ -131,16 +281,15 @@ public class GameEngine extends AppCompatActivity {
 
             }
         });
-
         findViewById(R.id.hints).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (hints) {
-                    hint_sound_off.start();
+                    if (!mute) hint_sound_off.start();
                     hints = false;
                     onoff.setText("off");
                     changeBoard("update", false);
                 } else {
-                    hint_sound.start();
+                    if (!mute) hint_sound.start();
                     hints = true;
                     onoff.setText("on");
                     changeBoard("update", false);
@@ -148,7 +297,6 @@ public class GameEngine extends AppCompatActivity {
 
             }
         });
-
         findViewById(R.id.b00).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pTurn) {
@@ -160,7 +308,6 @@ public class GameEngine extends AppCompatActivity {
                 pTurn = true;
             }
         });
-
         findViewById(R.id.b01).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pTurn) {
@@ -219,7 +366,6 @@ public class GameEngine extends AppCompatActivity {
                 pTurn = true;
             }
         });
-
         findViewById(R.id.b06).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pTurn) {
@@ -231,7 +377,6 @@ public class GameEngine extends AppCompatActivity {
                 pTurn = true;
             }
         });
-
         findViewById(R.id.b07).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (pTurn) {
@@ -863,6 +1008,8 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void playersTurn(char choice, TextView display, String position) {
+        final Button virtual_enable = findViewById(R.id.v_en);
+        final Button virtual_disable = findViewById(R.id.v_dis);
         MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
         if (!finish) {
             if (move.possibleMoves(z, choice)) {
@@ -880,12 +1027,14 @@ public class GameEngine extends AppCompatActivity {
 
                         display.setText("Can't move there!");
                     } else {
-                        roll.start();
+                        if (!mute) roll.start();
                         for (int x = 0; x < 8; x++) {
                             for (int y = 0; y < 8; y++) {
                                 z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
                             }
                         }
+
+                        virtual_disable.performClick();
                         changeBoard("update", true);
                         liveScore(z);
 
@@ -896,11 +1045,14 @@ public class GameEngine extends AppCompatActivity {
                             h.postDelayed(new Runnable() {
                                 public void run() {
                                     AITurn(revChoice, cho, disp);
+                                    virtual_enable.performClick();
                                 }
                             }, 2000);
                         } else {
                             AITurn(revChoice, choice, display);
+                            virtual_enable.performClick();
                         }
+
                     }
                 }
             } else {
@@ -921,7 +1073,7 @@ public class GameEngine extends AppCompatActivity {
             display.setText("Your turn!");
             changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
-                roll.start();
+                if (!mute) roll.start();
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
                 for (int x = 0; x < 8; x++) {
@@ -955,22 +1107,22 @@ public class GameEngine extends AppCompatActivity {
             }
             if (Xnum > Onum) {
                 if (choice == 'O') {
-                    win.start();
+                    if (!mute) win.start();
                     display.setText("You Won! Score: " + Xnum + " - " + Onum);
                 } else {
-                    lose.start();
+                    if (!mute) lose.start();
                     display.setText("You Lost! Score: " + Xnum + " - " + Onum);
                 }
             } else if (Xnum < Onum) {
                 if (choice == 'X') {
-                    win.start();
+                    if (!mute) win.start();
                     display.setText("You Won! Score: " + Xnum + " - " + Onum);
                 } else {
-                    lose.start();
+                    if (!mute) lose.start();
                     display.setText("You Lost! Score: " + Xnum + " - " + Onum);
                 }
             } else {
-                win.start();
+                if (!mute) win.start();
                 display.setText("Draw! Score: " + Xnum + " - " + Onum);
             }
             finish = true;

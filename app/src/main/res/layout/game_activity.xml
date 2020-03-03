@@ -938,7 +938,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
         app:layout_constraintEnd_toStartOf="@+id/fast_slow"
         app:layout_constraintTop_toTopOf="@+id/fast_slow"
-        app:srcCompat="@drawable/slow" />
+        app:srcCompat="@drawable/slow_yellow_shadow" />
 
     <ImageView
         android:id="@+id/fast"
@@ -947,7 +947,31 @@
         app:layout_constraintBottom_toBottomOf="@+id/fast_slow"
         app:layout_constraintStart_toEndOf="@+id/fast_slow"
         app:layout_constraintTop_toTopOf="@+id/fast_slow"
-        app:srcCompat="@drawable/fast" />
+        app:srcCompat="@drawable/fast_white_shadow" />
+
+    <ImageView
+        android:id="@+id/sound"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/white"
+        app:layout_constraintEnd_toEndOf="@+id/white"
+        app:layout_constraintStart_toStartOf="@+id/white"
+        app:layout_constraintTop_toBottomOf="@+id/shadow_display"
+        app:srcCompat="@drawable/sound_yellow" />
+
+    <Button
+        android:id="@+id/v_dis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/v_en"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
