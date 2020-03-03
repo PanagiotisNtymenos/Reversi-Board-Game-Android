@@ -17,7 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameEngine extends AppCompatActivity {
 
-    int Xs = 0, Os = 0;
+    int Xs = 0, Os = 0, c = 0;
     char choice = ' ';
     static char revChoice = ' ';
     public static int row, column, endGame = 0, Xnum = 0, Onum = 0;
@@ -30,6 +30,8 @@ public class GameEngine extends AppCompatActivity {
     private boolean mute = false;
     private int depth = 1;
     private boolean delayThat = true;
+    Animation blink;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,10 @@ public class GameEngine extends AppCompatActivity {
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
         final TextView onoff = findViewById(R.id.onoff);
-        final Button difficulty = findViewById(R.id.easy_hard);
+        final ImageButton difficulty = findViewById(R.id.easy_hard);
         final TextView blackp = findViewById(R.id.black_points);
         final TextView whitep = findViewById(R.id.white_points);
+        final TextView dif_txt = findViewById(R.id.dif_txt);
         final ImageView fast = findViewById(R.id.fast);
         final ImageView slow = findViewById(R.id.slow);
         final ImageView sound = findViewById(R.id.sound);
@@ -220,11 +223,15 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.sound).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Animation zoomout = AnimationUtils.loadAnimation(GameEngine.this, R.anim.zoomout);
+                Animation zoomin = AnimationUtils.loadAnimation(GameEngine.this, R.anim.zoomin);
                 if (mute) {
                     mute = false;
                     sound.setImageResource(R.drawable.sound_yellow);
                     level_sound.start();
+                    sound.startAnimation(zoomin);
                 } else {
+                    sound.startAnimation(zoomout);
                     sound.setImageResource(R.drawable.sound_white);
                     mute = true;
                 }
@@ -232,15 +239,17 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.easy_hard).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Animation bounce = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+                dif_txt.startAnimation(bounce);
                 if (!mute) level_sound.start();
                 depth = depth + 2;
                 if (depth == 7) {
                     depth = 1;
-                    difficulty.setText("EASY");
+                    dif_txt.setText("EASY");
                 } else if (depth == 3) {
-                    difficulty.setText("HARD");
+                    dif_txt.setText("HARD");
                 } else if (depth == 5) {
-                    difficulty.setText("PRO");
+                    dif_txt.setText("PRO");
                 }
             }
         });
@@ -300,6 +309,20 @@ public class GameEngine extends AppCompatActivity {
                     onoff.setText("on");
                 }
                 showHints();
+            }
+        });
+        findViewById(R.id.animation).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                c++;
+                if (c == 1) {
+                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+                } else if (c == 2) {
+                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+                } else {
+                    AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
+                    c = 0;
+                }
+
             }
         });
         findViewById(R.id.b00).setOnClickListener(new View.OnClickListener() {
@@ -1062,7 +1085,7 @@ public class GameEngine extends AppCompatActivity {
                         }
 
                     }
-                }else{
+                } else {
                     changeBoard("update", false);
                     showHints();
                 }
@@ -1161,77 +1184,77 @@ public class GameEngine extends AppCompatActivity {
     }
 
     private void showHints() {
-        final ImageButton b00 = findViewById(R.id.b00);
-        final ImageButton b01 = findViewById(R.id.b01);
-        final ImageButton b02 = findViewById(R.id.b02);
-        final ImageButton b03 = findViewById(R.id.b03);
-        final ImageButton b04 = findViewById(R.id.b04);
-        final ImageButton b05 = findViewById(R.id.b05);
-        final ImageButton b06 = findViewById(R.id.b06);
-        final ImageButton b07 = findViewById(R.id.b07);
+        final ImageView b00 = findViewById(R.id.b00);
+        final ImageView b01 = findViewById(R.id.b01);
+        final ImageView b02 = findViewById(R.id.b02);
+        final ImageView b03 = findViewById(R.id.b03);
+        final ImageView b04 = findViewById(R.id.b04);
+        final ImageView b05 = findViewById(R.id.b05);
+        final ImageView b06 = findViewById(R.id.b06);
+        final ImageView b07 = findViewById(R.id.b07);
 
-        final ImageButton b10 = findViewById(R.id.b10);
-        final ImageButton b11 = findViewById(R.id.b11);
-        final ImageButton b12 = findViewById(R.id.b12);
-        final ImageButton b13 = findViewById(R.id.b13);
-        final ImageButton b14 = findViewById(R.id.b14);
-        final ImageButton b15 = findViewById(R.id.b15);
-        final ImageButton b16 = findViewById(R.id.b16);
-        final ImageButton b17 = findViewById(R.id.b17);
+        final ImageView b10 = findViewById(R.id.b10);
+        final ImageView b11 = findViewById(R.id.b11);
+        final ImageView b12 = findViewById(R.id.b12);
+        final ImageView b13 = findViewById(R.id.b13);
+        final ImageView b14 = findViewById(R.id.b14);
+        final ImageView b15 = findViewById(R.id.b15);
+        final ImageView b16 = findViewById(R.id.b16);
+        final ImageView b17 = findViewById(R.id.b17);
 
-        final ImageButton b20 = findViewById(R.id.b20);
-        final ImageButton b21 = findViewById(R.id.b21);
-        final ImageButton b22 = findViewById(R.id.b22);
-        final ImageButton b23 = findViewById(R.id.b23);
-        final ImageButton b24 = findViewById(R.id.b24);
-        final ImageButton b25 = findViewById(R.id.b25);
-        final ImageButton b26 = findViewById(R.id.b26);
-        final ImageButton b27 = findViewById(R.id.b27);
+        final ImageView b20 = findViewById(R.id.b20);
+        final ImageView b21 = findViewById(R.id.b21);
+        final ImageView b22 = findViewById(R.id.b22);
+        final ImageView b23 = findViewById(R.id.b23);
+        final ImageView b24 = findViewById(R.id.b24);
+        final ImageView b25 = findViewById(R.id.b25);
+        final ImageView b26 = findViewById(R.id.b26);
+        final ImageView b27 = findViewById(R.id.b27);
 
-        final ImageButton b30 = findViewById(R.id.b30);
-        final ImageButton b31 = findViewById(R.id.b31);
-        final ImageButton b32 = findViewById(R.id.b32);
-        final ImageButton b33 = findViewById(R.id.b33);
-        final ImageButton b34 = findViewById(R.id.b34);
-        final ImageButton b35 = findViewById(R.id.b35);
-        final ImageButton b36 = findViewById(R.id.b36);
-        final ImageButton b37 = findViewById(R.id.b37);
+        final ImageView b30 = findViewById(R.id.b30);
+        final ImageView b31 = findViewById(R.id.b31);
+        final ImageView b32 = findViewById(R.id.b32);
+        final ImageView b33 = findViewById(R.id.b33);
+        final ImageView b34 = findViewById(R.id.b34);
+        final ImageView b35 = findViewById(R.id.b35);
+        final ImageView b36 = findViewById(R.id.b36);
+        final ImageView b37 = findViewById(R.id.b37);
 
-        final ImageButton b40 = findViewById(R.id.b40);
-        final ImageButton b41 = findViewById(R.id.b41);
-        final ImageButton b42 = findViewById(R.id.b42);
-        final ImageButton b43 = findViewById(R.id.b43);
-        final ImageButton b44 = findViewById(R.id.b44);
-        final ImageButton b45 = findViewById(R.id.b45);
-        final ImageButton b46 = findViewById(R.id.b46);
-        final ImageButton b47 = findViewById(R.id.b47);
+        final ImageView b40 = findViewById(R.id.b40);
+        final ImageView b41 = findViewById(R.id.b41);
+        final ImageView b42 = findViewById(R.id.b42);
+        final ImageView b43 = findViewById(R.id.b43);
+        final ImageView b44 = findViewById(R.id.b44);
+        final ImageView b45 = findViewById(R.id.b45);
+        final ImageView b46 = findViewById(R.id.b46);
+        final ImageView b47 = findViewById(R.id.b47);
 
-        final ImageButton b50 = findViewById(R.id.b50);
-        final ImageButton b51 = findViewById(R.id.b51);
-        final ImageButton b52 = findViewById(R.id.b52);
-        final ImageButton b53 = findViewById(R.id.b53);
-        final ImageButton b54 = findViewById(R.id.b54);
-        final ImageButton b55 = findViewById(R.id.b55);
-        final ImageButton b56 = findViewById(R.id.b56);
-        final ImageButton b57 = findViewById(R.id.b57);
+        final ImageView b50 = findViewById(R.id.b50);
+        final ImageView b51 = findViewById(R.id.b51);
+        final ImageView b52 = findViewById(R.id.b52);
+        final ImageView b53 = findViewById(R.id.b53);
+        final ImageView b54 = findViewById(R.id.b54);
+        final ImageView b55 = findViewById(R.id.b55);
+        final ImageView b56 = findViewById(R.id.b56);
+        final ImageView b57 = findViewById(R.id.b57);
 
-        final ImageButton b60 = findViewById(R.id.b60);
-        final ImageButton b61 = findViewById(R.id.b61);
-        final ImageButton b62 = findViewById(R.id.b62);
-        final ImageButton b63 = findViewById(R.id.b63);
-        final ImageButton b64 = findViewById(R.id.b64);
-        final ImageButton b65 = findViewById(R.id.b65);
-        final ImageButton b66 = findViewById(R.id.b66);
-        final ImageButton b67 = findViewById(R.id.b67);
+        final ImageView b60 = findViewById(R.id.b60);
+        final ImageView b61 = findViewById(R.id.b61);
+        final ImageView b62 = findViewById(R.id.b62);
+        final ImageView b63 = findViewById(R.id.b63);
+        final ImageView b64 = findViewById(R.id.b64);
+        final ImageView b65 = findViewById(R.id.b65);
+        final ImageView b66 = findViewById(R.id.b66);
+        final ImageView b67 = findViewById(R.id.b67);
 
-        final ImageButton b70 = findViewById(R.id.b70);
-        final ImageButton b71 = findViewById(R.id.b71);
-        final ImageButton b72 = findViewById(R.id.b72);
-        final ImageButton b73 = findViewById(R.id.b73);
-        final ImageButton b74 = findViewById(R.id.b74);
-        final ImageButton b75 = findViewById(R.id.b75);
-        final ImageButton b76 = findViewById(R.id.b76);
-        final ImageButton b77 = findViewById(R.id.b77);
+        final ImageView b70 = findViewById(R.id.b70);
+        final ImageView b71 = findViewById(R.id.b71);
+        final ImageView b72 = findViewById(R.id.b72);
+        final ImageView b73 = findViewById(R.id.b73);
+        final ImageView b74 = findViewById(R.id.b74);
+        final ImageView b75 = findViewById(R.id.b75);
+        final ImageView b76 = findViewById(R.id.b76);
+        final ImageView b77 = findViewById(R.id.b77);
         String position;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -1505,79 +1528,79 @@ public class GameEngine extends AppCompatActivity {
 
     public void changeBoard(String reason, boolean CPUsTurn) {
         boolean hintsWereOpen = false;
-        final ImageButton b00 = findViewById(R.id.b00);
-        final ImageButton b01 = findViewById(R.id.b01);
-        final ImageButton b02 = findViewById(R.id.b02);
-        final ImageButton b03 = findViewById(R.id.b03);
-        final ImageButton b04 = findViewById(R.id.b04);
-        final ImageButton b05 = findViewById(R.id.b05);
-        final ImageButton b06 = findViewById(R.id.b06);
-        final ImageButton b07 = findViewById(R.id.b07);
+        final ImageView b00 = findViewById(R.id.b00);
+        final ImageView b01 = findViewById(R.id.b01);
+        final ImageView b02 = findViewById(R.id.b02);
+        final ImageView b03 = findViewById(R.id.b03);
+        final ImageView b04 = findViewById(R.id.b04);
+        final ImageView b05 = findViewById(R.id.b05);
+        final ImageView b06 = findViewById(R.id.b06);
+        final ImageView b07 = findViewById(R.id.b07);
 
-        final ImageButton b10 = findViewById(R.id.b10);
-        final ImageButton b11 = findViewById(R.id.b11);
-        final ImageButton b12 = findViewById(R.id.b12);
-        final ImageButton b13 = findViewById(R.id.b13);
-        final ImageButton b14 = findViewById(R.id.b14);
-        final ImageButton b15 = findViewById(R.id.b15);
-        final ImageButton b16 = findViewById(R.id.b16);
-        final ImageButton b17 = findViewById(R.id.b17);
+        final ImageView b10 = findViewById(R.id.b10);
+        final ImageView b11 = findViewById(R.id.b11);
+        final ImageView b12 = findViewById(R.id.b12);
+        final ImageView b13 = findViewById(R.id.b13);
+        final ImageView b14 = findViewById(R.id.b14);
+        final ImageView b15 = findViewById(R.id.b15);
+        final ImageView b16 = findViewById(R.id.b16);
+        final ImageView b17 = findViewById(R.id.b17);
 
-        final ImageButton b20 = findViewById(R.id.b20);
-        final ImageButton b21 = findViewById(R.id.b21);
-        final ImageButton b22 = findViewById(R.id.b22);
-        final ImageButton b23 = findViewById(R.id.b23);
-        final ImageButton b24 = findViewById(R.id.b24);
-        final ImageButton b25 = findViewById(R.id.b25);
-        final ImageButton b26 = findViewById(R.id.b26);
-        final ImageButton b27 = findViewById(R.id.b27);
+        final ImageView b20 = findViewById(R.id.b20);
+        final ImageView b21 = findViewById(R.id.b21);
+        final ImageView b22 = findViewById(R.id.b22);
+        final ImageView b23 = findViewById(R.id.b23);
+        final ImageView b24 = findViewById(R.id.b24);
+        final ImageView b25 = findViewById(R.id.b25);
+        final ImageView b26 = findViewById(R.id.b26);
+        final ImageView b27 = findViewById(R.id.b27);
 
-        final ImageButton b30 = findViewById(R.id.b30);
-        final ImageButton b31 = findViewById(R.id.b31);
-        final ImageButton b32 = findViewById(R.id.b32);
-        final ImageButton b33 = findViewById(R.id.b33);
-        final ImageButton b34 = findViewById(R.id.b34);
-        final ImageButton b35 = findViewById(R.id.b35);
-        final ImageButton b36 = findViewById(R.id.b36);
-        final ImageButton b37 = findViewById(R.id.b37);
+        final ImageView b30 = findViewById(R.id.b30);
+        final ImageView b31 = findViewById(R.id.b31);
+        final ImageView b32 = findViewById(R.id.b32);
+        final ImageView b33 = findViewById(R.id.b33);
+        final ImageView b34 = findViewById(R.id.b34);
+        final ImageView b35 = findViewById(R.id.b35);
+        final ImageView b36 = findViewById(R.id.b36);
+        final ImageView b37 = findViewById(R.id.b37);
 
-        final ImageButton b40 = findViewById(R.id.b40);
-        final ImageButton b41 = findViewById(R.id.b41);
-        final ImageButton b42 = findViewById(R.id.b42);
-        final ImageButton b43 = findViewById(R.id.b43);
-        final ImageButton b44 = findViewById(R.id.b44);
-        final ImageButton b45 = findViewById(R.id.b45);
-        final ImageButton b46 = findViewById(R.id.b46);
-        final ImageButton b47 = findViewById(R.id.b47);
+        final ImageView b40 = findViewById(R.id.b40);
+        final ImageView b41 = findViewById(R.id.b41);
+        final ImageView b42 = findViewById(R.id.b42);
+        final ImageView b43 = findViewById(R.id.b43);
+        final ImageView b44 = findViewById(R.id.b44);
+        final ImageView b45 = findViewById(R.id.b45);
+        final ImageView b46 = findViewById(R.id.b46);
+        final ImageView b47 = findViewById(R.id.b47);
 
-        final ImageButton b50 = findViewById(R.id.b50);
-        final ImageButton b51 = findViewById(R.id.b51);
-        final ImageButton b52 = findViewById(R.id.b52);
-        final ImageButton b53 = findViewById(R.id.b53);
-        final ImageButton b54 = findViewById(R.id.b54);
-        final ImageButton b55 = findViewById(R.id.b55);
-        final ImageButton b56 = findViewById(R.id.b56);
-        final ImageButton b57 = findViewById(R.id.b57);
+        final ImageView b50 = findViewById(R.id.b50);
+        final ImageView b51 = findViewById(R.id.b51);
+        final ImageView b52 = findViewById(R.id.b52);
+        final ImageView b53 = findViewById(R.id.b53);
+        final ImageView b54 = findViewById(R.id.b54);
+        final ImageView b55 = findViewById(R.id.b55);
+        final ImageView b56 = findViewById(R.id.b56);
+        final ImageView b57 = findViewById(R.id.b57);
 
-        final ImageButton b60 = findViewById(R.id.b60);
-        final ImageButton b61 = findViewById(R.id.b61);
-        final ImageButton b62 = findViewById(R.id.b62);
-        final ImageButton b63 = findViewById(R.id.b63);
-        final ImageButton b64 = findViewById(R.id.b64);
-        final ImageButton b65 = findViewById(R.id.b65);
-        final ImageButton b66 = findViewById(R.id.b66);
-        final ImageButton b67 = findViewById(R.id.b67);
+        final ImageView b60 = findViewById(R.id.b60);
+        final ImageView b61 = findViewById(R.id.b61);
+        final ImageView b62 = findViewById(R.id.b62);
+        final ImageView b63 = findViewById(R.id.b63);
+        final ImageView b64 = findViewById(R.id.b64);
+        final ImageView b65 = findViewById(R.id.b65);
+        final ImageView b66 = findViewById(R.id.b66);
+        final ImageView b67 = findViewById(R.id.b67);
 
-        final ImageButton b70 = findViewById(R.id.b70);
-        final ImageButton b71 = findViewById(R.id.b71);
-        final ImageButton b72 = findViewById(R.id.b72);
-        final ImageButton b73 = findViewById(R.id.b73);
-        final ImageButton b74 = findViewById(R.id.b74);
-        final ImageButton b75 = findViewById(R.id.b75);
-        final ImageButton b76 = findViewById(R.id.b76);
-        final ImageButton b77 = findViewById(R.id.b77);
-        Animation blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+        final ImageView b70 = findViewById(R.id.b70);
+        final ImageView b71 = findViewById(R.id.b71);
+        final ImageView b72 = findViewById(R.id.b72);
+        final ImageView b73 = findViewById(R.id.b73);
+        final ImageView b74 = findViewById(R.id.b74);
+        final ImageView b75 = findViewById(R.id.b75);
+        final ImageView b76 = findViewById(R.id.b76);
+        final ImageView b77 = findViewById(R.id.b77);
         String position = "";
+        blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
         if (CPUsTurn) {
             if (hints) {
                 hints = false;

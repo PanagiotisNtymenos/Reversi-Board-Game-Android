@@ -931,83 +931,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b00"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b01"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b02"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b03"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b04"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b05"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b06"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b07"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
@@ -1023,83 +1023,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row1">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b10"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b11"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b12"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b13"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b14"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b15"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b16"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b17"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1113,83 +1113,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row2">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b20"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b21"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b22"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b23"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b24"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b25"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b26"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b27"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1203,83 +1203,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row3">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b30"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b31"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b32"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b33"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/white_shadow" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b34"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/black_shadow" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b35"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b36"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b37"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1293,83 +1293,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row4">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b40"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b41"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b42"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b43"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/black_shadow" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b44"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/white_shadow" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b45"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b46"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b47"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1383,83 +1383,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row5">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b50"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b51"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b52"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b53"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b54"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b55"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b56"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b57"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1473,83 +1473,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row6">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b60"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b61"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b62"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b63"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b64"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b65"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b66"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b67"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
@@ -1563,90 +1563,90 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row7">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b70"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b71"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b72"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b73"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b74"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b75"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b76"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/darkgreen"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/b77"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@color/green"
+                android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/transparent" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/easy_hard"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -1654,13 +1654,25 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:background="#FBC02D"
-        android:text="EASY"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/reset"
         app:layout_constraintStart_toEndOf="@+id/black" />
+
+    <TextView
+        android:id="@+id/dif_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EASY"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/easy_hard"
+        app:layout_constraintEnd_toEndOf="@+id/easy_hard"
+        app:layout_constraintStart_toStartOf="@+id/easy_hard"
+        app:layout_constraintTop_toTopOf="@+id/easy_hard" />
 
     <Switch
         android:id="@+id/fast_slow"
@@ -1718,6 +1730,17 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FBC02D"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/black"
+        app:layout_constraintEnd_toEndOf="@+id/black"
+        app:layout_constraintStart_toStartOf="@+id/black"
+        app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
