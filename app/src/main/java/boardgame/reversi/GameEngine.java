@@ -1,6 +1,6 @@
 package boardgame.reversi;
 
-import android.graphics.drawable.Animatable;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameEngine extends AppCompatActivity {
 
@@ -30,7 +29,6 @@ public class GameEngine extends AppCompatActivity {
     private boolean hints = false;
     private boolean mute = false;
     private boolean goPRO = false;
-    private boolean thumpIsUp = false;
     private int depth = 1;
     private boolean delayThat = true;
     long lastDown;
@@ -59,6 +57,7 @@ public class GameEngine extends AppCompatActivity {
         final ImageView slow = findViewById(R.id.slow);
         final ImageView sound = findViewById(R.id.sound);
         final ImageButton reset = findViewById(R.id.reset);
+        final ImageButton hints_b = findViewById(R.id.hints);
 
         findViewById(R.id.v_dis).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -331,8 +330,10 @@ public class GameEngine extends AppCompatActivity {
                     public void run() {
                         if (lastDuration >= 1000) {
                             if (goPRO) {
+                                hints_b.setBackgroundColor(Color.parseColor("#F4BD33"));
                                 goPRO = false;
                             } else {
+                                hints_b.setBackgroundColor(Color.parseColor("#AE0000"));
                                 goPRO = true;
                             }
                         }
@@ -1315,7 +1316,12 @@ public class GameEngine extends AppCompatActivity {
             revChoice = 'O';
         }
         if (hints) {
-            Board hitBack = move.outcomeminimax(z, 5, -10000, 10000, choice, revChoice, true);
+            Board hitBack;
+            if (depth == 5) {
+                hitBack = move.outcomeminimax(z, 5, -10000, 10000, choice, revChoice, true);
+            } else {
+                hitBack = move.outcomeminimax(z, depth + 2, -10000, 10000, choice, revChoice, true);
+            }
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
                     if ((z.currentBoard[x][y] != hitBack.currentBoard[x][y]) && z.currentBoard[x][y] == ' ') {
