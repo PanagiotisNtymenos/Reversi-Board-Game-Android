@@ -4,6 +4,7 @@ import android.graphics.drawable.Animatable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,7 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameEngine extends AppCompatActivity {
 
-    int Xs = 0, Os = 0, c = 0;
+    int Xs = 0, Os = 0, c = 0, wentIn = 0;
     char choice = ' ';
     static char revChoice = ' ';
     public static int row, column, endGame = 0, Xnum = 0, Onum = 0;
@@ -28,8 +29,12 @@ public class GameEngine extends AppCompatActivity {
     private boolean finish = false;
     private boolean hints = false;
     private boolean mute = false;
+    private boolean goPRO = false;
+    private boolean thumpIsUp = false;
     private int depth = 1;
     private boolean delayThat = true;
+    long lastDown;
+    long lastDuration;
     Animation blink;
     Animation anim;
 
@@ -298,18 +303,52 @@ public class GameEngine extends AppCompatActivity {
 
             }
         });
-        findViewById(R.id.hints).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (hints) {
-                    if (!mute) hint_sound_off.start();
-                    hints = false;
-                    onoff.setText("off");
-                } else {
-                    if (!mute) hint_sound.start();
-                    hints = true;
-                    onoff.setText("on");
+        findViewById(R.id.hints).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lastDown = System.currentTimeMillis();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    wentIn = 1;
+                    lastDuration = System.currentTimeMillis() - lastDown;
                 }
+
+                if (lastDuration < 500 && wentIn == 1) {
+                    if (hints) {
+                        if (!mute) hint_sound_off.start();
+                        hints = false;
+                        goPRO = false;
+                        onoff.setText("off");
+                    } else {
+                        if (!mute) hint_sound.start();
+                        hints = true;
+                        onoff.setText("on");
+                    }
+                }
+
+                Handler h = new Handler();
+                h.postDelayed(new Runnable() {
+                    public void run() {
+                        if (lastDuration >= 1000) {
+                            if (goPRO) {
+                                goPRO = false;
+                            } else {
+                                goPRO = true;
+                            }
+                        }
+                        if (goPRO) {
+                            showBestMove(choice);
+                        }
+                    }
+                }, 1100);
                 showHints();
+                if (goPRO) {
+                    showBestMove(choice);
+                }
+                if (wentIn == 1) {
+                    wentIn = 0;
+                }
+                return true;
             }
         });
         findViewById(R.id.animation).setOnClickListener(new View.OnClickListener() {
@@ -1099,7 +1138,6 @@ public class GameEngine extends AppCompatActivity {
                     }
                 } else {
                     changeBoard("update", false);
-                    showHints();
                 }
             } else {
                 display.setText("No moves to make.");
@@ -1117,7 +1155,6 @@ public class GameEngine extends AppCompatActivity {
         MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
         if (!finish) {
             display.setText("Your turn!");
-//            changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
                 if (!mute && delayThat) roll.start();
                 endGame = 0;
@@ -1196,6 +1233,232 @@ public class GameEngine extends AppCompatActivity {
         whitep.setText(Os + "");
         blackp.startAnimation(bounce);
         whitep.startAnimation(bounce);
+    }
+
+    private void showBestMove(char choice) {
+        final ImageView b00 = findViewById(R.id.b00);
+        final ImageView b01 = findViewById(R.id.b01);
+        final ImageView b02 = findViewById(R.id.b02);
+        final ImageView b03 = findViewById(R.id.b03);
+        final ImageView b04 = findViewById(R.id.b04);
+        final ImageView b05 = findViewById(R.id.b05);
+        final ImageView b06 = findViewById(R.id.b06);
+        final ImageView b07 = findViewById(R.id.b07);
+
+        final ImageView b10 = findViewById(R.id.b10);
+        final ImageView b11 = findViewById(R.id.b11);
+        final ImageView b12 = findViewById(R.id.b12);
+        final ImageView b13 = findViewById(R.id.b13);
+        final ImageView b14 = findViewById(R.id.b14);
+        final ImageView b15 = findViewById(R.id.b15);
+        final ImageView b16 = findViewById(R.id.b16);
+        final ImageView b17 = findViewById(R.id.b17);
+
+        final ImageView b20 = findViewById(R.id.b20);
+        final ImageView b21 = findViewById(R.id.b21);
+        final ImageView b22 = findViewById(R.id.b22);
+        final ImageView b23 = findViewById(R.id.b23);
+        final ImageView b24 = findViewById(R.id.b24);
+        final ImageView b25 = findViewById(R.id.b25);
+        final ImageView b26 = findViewById(R.id.b26);
+        final ImageView b27 = findViewById(R.id.b27);
+
+        final ImageView b30 = findViewById(R.id.b30);
+        final ImageView b31 = findViewById(R.id.b31);
+        final ImageView b32 = findViewById(R.id.b32);
+        final ImageView b33 = findViewById(R.id.b33);
+        final ImageView b34 = findViewById(R.id.b34);
+        final ImageView b35 = findViewById(R.id.b35);
+        final ImageView b36 = findViewById(R.id.b36);
+        final ImageView b37 = findViewById(R.id.b37);
+
+        final ImageView b40 = findViewById(R.id.b40);
+        final ImageView b41 = findViewById(R.id.b41);
+        final ImageView b42 = findViewById(R.id.b42);
+        final ImageView b43 = findViewById(R.id.b43);
+        final ImageView b44 = findViewById(R.id.b44);
+        final ImageView b45 = findViewById(R.id.b45);
+        final ImageView b46 = findViewById(R.id.b46);
+        final ImageView b47 = findViewById(R.id.b47);
+
+        final ImageView b50 = findViewById(R.id.b50);
+        final ImageView b51 = findViewById(R.id.b51);
+        final ImageView b52 = findViewById(R.id.b52);
+        final ImageView b53 = findViewById(R.id.b53);
+        final ImageView b54 = findViewById(R.id.b54);
+        final ImageView b55 = findViewById(R.id.b55);
+        final ImageView b56 = findViewById(R.id.b56);
+        final ImageView b57 = findViewById(R.id.b57);
+
+        final ImageView b60 = findViewById(R.id.b60);
+        final ImageView b61 = findViewById(R.id.b61);
+        final ImageView b62 = findViewById(R.id.b62);
+        final ImageView b63 = findViewById(R.id.b63);
+        final ImageView b64 = findViewById(R.id.b64);
+        final ImageView b65 = findViewById(R.id.b65);
+        final ImageView b66 = findViewById(R.id.b66);
+        final ImageView b67 = findViewById(R.id.b67);
+
+        final ImageView b70 = findViewById(R.id.b70);
+        final ImageView b71 = findViewById(R.id.b71);
+        final ImageView b72 = findViewById(R.id.b72);
+        final ImageView b73 = findViewById(R.id.b73);
+        final ImageView b74 = findViewById(R.id.b74);
+        final ImageView b75 = findViewById(R.id.b75);
+        final ImageView b76 = findViewById(R.id.b76);
+        final ImageView b77 = findViewById(R.id.b77);
+        char revChoice;
+        String position = "";
+        if (choice == 'O') {
+            revChoice = 'X';
+        } else {
+            revChoice = 'O';
+        }
+        if (hints) {
+            Board hitBack = move.outcomeminimax(z, 5, -10000, 10000, choice, revChoice, true);
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    if ((z.currentBoard[x][y] != hitBack.currentBoard[x][y]) && z.currentBoard[x][y] == ' ') {
+                        position = x + "" + y;
+
+                        if (position.equals("00")) {
+                            b00.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("01")) {
+                            b01.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("02")) {
+                            b02.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("03")) {
+                            b03.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("04")) {
+                            b04.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("05")) {
+                            b05.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("06")) {
+                            b06.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("07")) {
+                            b07.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("10")) {
+                            b10.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("11")) {
+                            b11.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("12")) {
+                            b12.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("13")) {
+                            b13.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("14")) {
+                            b14.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("15")) {
+                            b15.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("16")) {
+                            b16.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("17")) {
+                            b17.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("20")) {
+                            b20.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("21")) {
+                            b21.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("22")) {
+                            b22.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("23")) {
+                            b23.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("24")) {
+                            b24.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("25")) {
+                            b25.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("26")) {
+                            b26.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("27")) {
+                            b27.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("30")) {
+                            b30.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("31")) {
+                            b31.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("32")) {
+                            b32.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("33")) {
+                            b33.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("34")) {
+                            b34.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("35")) {
+                            b35.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("36")) {
+                            b36.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("37")) {
+                            b37.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("40")) {
+                            b40.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("41")) {
+                            b41.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("42")) {
+                            b42.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("43")) {
+                            b43.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("44")) {
+                            b44.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("45")) {
+                            b45.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("46")) {
+                            b46.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("47")) {
+                            b47.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("50")) {
+                            b50.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("51")) {
+                            b51.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("52")) {
+                            b52.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("53")) {
+                            b53.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("54")) {
+                            b54.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("55")) {
+                            b55.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("56")) {
+                            b56.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("57")) {
+                            b57.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("60")) {
+                            b60.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("61")) {
+                            b61.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("62")) {
+                            b62.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("63")) {
+                            b63.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("64")) {
+                            b64.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("65")) {
+                            b65.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("66")) {
+                            b66.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("67")) {
+                            b67.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("70")) {
+                            b70.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("71")) {
+                            b71.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("72")) {
+                            b72.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("73")) {
+                            b73.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("74")) {
+                            b74.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("75")) {
+                            b75.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("76")) {
+                            b76.setImageResource(R.drawable.hint_red);
+                        } else if (position.equals("77")) {
+                            b77.setImageResource(R.drawable.hint_red);
+                        }
+
+                        break;
+                    }
+                }
+                if (!position.equals("")) {
+                    break;
+                }
+            }
+        }
     }
 
     private void showHints() {
@@ -1404,6 +1667,10 @@ public class GameEngine extends AppCompatActivity {
                             b76.setImageResource(R.drawable.hint);
                         } else if (position.equals("77")) {
                             b77.setImageResource(R.drawable.hint);
+                        }
+
+                        if (goPRO) {
+                            showBestMove(choice);
                         }
                     } else if (z.Map[i][j] == ' ' || (z.Map[i][j] == 'Z' && !hints)) {
                         if (position.equals("00")) {
@@ -2287,6 +2554,7 @@ public class GameEngine extends AppCompatActivity {
             }
         }
         showHints();
+
         if (hintsWereOpen) {
             hints = true;
         }
