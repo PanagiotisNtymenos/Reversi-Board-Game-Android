@@ -31,6 +31,7 @@ public class GameEngine extends AppCompatActivity {
     private int depth = 1;
     private boolean delayThat = true;
     Animation blink;
+    Animation anim;
 
 
     @Override
@@ -45,8 +46,8 @@ public class GameEngine extends AppCompatActivity {
         final Button blacks = findViewById(R.id.black);
         final Button whites = findViewById(R.id.white);
         final TextView onoff = findViewById(R.id.onoff);
-        final ImageButton difficulty = findViewById(R.id.easy_hard);
         final TextView blackp = findViewById(R.id.black_points);
+        final TextView anim_select = findViewById(R.id.anim_select);
         final TextView whitep = findViewById(R.id.white_points);
         final TextView dif_txt = findViewById(R.id.dif_txt);
         final ImageView fast = findViewById(R.id.fast);
@@ -313,10 +314,26 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.animation).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (!mute) level_sound.start();
                 c++;
-                if (c == 5) {
+                if (c == 1) {
+                    anim = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+                    anim_select.setText("||");
+                } else if (c == 2) {
+                    anim = AnimationUtils.loadAnimation(GameEngine.this, R.anim.zoomin);
+                    anim_select.setText("|||");
+                } else if (c == 3) {
+                    anim = AnimationUtils.loadAnimation(GameEngine.this, R.anim.flip);
+                    anim_select.setText("||||");
+                } else if (c == 4) {
+                    anim = AnimationUtils.loadAnimation(GameEngine.this, R.anim.lefttoright);
+                    anim_select.setText("|||||");
+                } else {
+                    anim = AnimationUtils.loadAnimation(GameEngine.this, R.anim.blink_anim);
                     c = 0;
+                    anim_select.setText("|");
                 }
+                anim_select.startAnimation(anim);
 
             }
         });
@@ -1102,7 +1119,7 @@ public class GameEngine extends AppCompatActivity {
             display.setText("Your turn!");
 //            changeBoard("update", false);
             if (move.possibleMoves(z, choice)) {
-                if (!mute) roll.start();
+                if (!mute && delayThat) roll.start();
                 endGame = 0;
                 Board temp = move.outcomeminimax(z, depth, -10000, 10000, choice, revChoice, true);
                 for (int x = 0; x < 8; x++) {
@@ -1166,6 +1183,7 @@ public class GameEngine extends AppCompatActivity {
     private void liveScore(Board B) {
         Xs = 0;
         Os = 0;
+        Animation bounce = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
         TextView blackp = findViewById(R.id.black_points);
         TextView whitep = findViewById(R.id.white_points);
         for (int i = 0; i < 8; i++) {
@@ -1176,6 +1194,8 @@ public class GameEngine extends AppCompatActivity {
         }
         blackp.setText(Xs + "");
         whitep.setText(Os + "");
+        blackp.startAnimation(bounce);
+        whitep.startAnimation(bounce);
     }
 
     private void showHints() {
@@ -1598,7 +1618,7 @@ public class GameEngine extends AppCompatActivity {
         if (c == 1) {
             blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
         } else if (c == 2) {
-            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.fadein);
+            blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.zoomin);
         } else if (c == 3) {
             blink = AnimationUtils.loadAnimation(GameEngine.this, R.anim.flip);
         } else if (c == 4) {

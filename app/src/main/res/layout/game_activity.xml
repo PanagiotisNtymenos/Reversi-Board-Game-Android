@@ -89,15 +89,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <ImageView
         android:id="@+id/score_back"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#FBC02D"
-        app:layout_constraintBottom_toBottomOf="@+id/white_points"
-        app:layout_constraintEnd_toEndOf="@+id/white_points"
-        app:layout_constraintStart_toStartOf="@+id/black_points"
-        app:layout_constraintTop_toTopOf="@+id/black_points" />
+        app:layout_constraintBottom_toBottomOf="@+id/div"
+        app:layout_constraintEnd_toStartOf="@+id/score_R"
+        app:layout_constraintStart_toStartOf="@+id/score_L"
+        app:layout_constraintTop_toTopOf="@+id/div" />
+
+    <TextView
+        android:id="@+id/score_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        app:layout_constraintBottom_toBottomOf="@+id/div"
+        app:layout_constraintStart_toEndOf="@+id/div"
+        app:layout_constraintTop_toTopOf="@+id/div" />
+
+    <TextView
+        android:id="@+id/score_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        app:layout_constraintBottom_toBottomOf="@+id/div"
+        app:layout_constraintEnd_toEndOf="@+id/div"
+        app:layout_constraintEnd_toStartOf="@+id/div"
+        app:layout_constraintTop_toTopOf="@+id/div" />
 
     <TextView
         android:id="@+id/display"
@@ -133,10 +152,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
-        android:textStyle="bold"
+        android:textStyle="normal|bold"
         app:layout_constraintBottom_toTopOf="@+id/game_layout"
         app:layout_constraintStart_toEndOf="@+id/div"
         app:layout_constraintTop_toBottomOf="@+id/display" />
@@ -145,7 +163,6 @@
         android:id="@+id/div"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:text=":"
         android:textColor="#000000"
         android:textSize="30sp"
@@ -1661,6 +1678,16 @@
         app:layout_constraintEnd_toStartOf="@+id/reset"
         app:layout_constraintStart_toEndOf="@+id/black" />
 
+    <ImageButton
+        android:id="@+id/animation"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:background="#FBC02D"
+        app:layout_constraintBottom_toTopOf="@+id/black"
+        app:layout_constraintEnd_toEndOf="@+id/black"
+        app:layout_constraintStart_toStartOf="@+id/black"
+        app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
+
     <TextView
         android:id="@+id/dif_txt"
         android:layout_width="wrap_content"
@@ -1673,6 +1700,19 @@
         app:layout_constraintEnd_toEndOf="@+id/easy_hard"
         app:layout_constraintStart_toStartOf="@+id/easy_hard"
         app:layout_constraintTop_toTopOf="@+id/easy_hard" />
+
+    <TextView
+        android:id="@+id/anim_select"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="|"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/animation"
+        app:layout_constraintEnd_toEndOf="@+id/animation"
+        app:layout_constraintStart_toStartOf="@+id/animation"
+        app:layout_constraintTop_toTopOf="@+id/animation" />
 
     <Switch
         android:id="@+id/fast_slow"
@@ -1730,17 +1770,6 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FBC02D"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/black"
-        app:layout_constraintEnd_toEndOf="@+id/black"
-        app:layout_constraintStart_toStartOf="@+id/black"
-        app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
