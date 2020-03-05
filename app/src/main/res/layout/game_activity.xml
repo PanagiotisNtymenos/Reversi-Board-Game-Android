@@ -43,11 +43,24 @@
         android:layout_marginBottom="24dp"
         android:adjustViewBounds="true"
         android:background="#F4BD33"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/white"
+        app:layout_constraintStart_toEndOf="@+id/reset" />
+
+    <ImageView
+        android:id="@+id/hintsbulb"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:adjustViewBounds="true"
+        android:background="#F4BD33"
         android:scaleType="fitCenter"
         android:src="@drawable/hintbulbshadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/white"
-        app:layout_constraintStart_toEndOf="@+id/reset" />
+        app:layout_constraintStart_toEndOf="@+id/reset"/>
 
     <ImageButton
         android:id="@+id/reset"
@@ -72,11 +85,11 @@
         android:gravity="center|center_vertical"
         android:text="off"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/hints"
-        app:layout_constraintEnd_toEndOf="@+id/hints"
+        app:layout_constraintBottom_toBottomOf="@+id/hintsbulb"
+        app:layout_constraintEnd_toEndOf="@+id/hintsbulb"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="@+id/hints"
-        app:layout_constraintTop_toTopOf="@+id/hints"
+        app:layout_constraintStart_toStartOf="@+id/hintsbulb"
+        app:layout_constraintTop_toTopOf="@+id/hintsbulb"
         app:layout_constraintVertical_bias="0.422" />
 
     <TextView
@@ -1687,6 +1700,17 @@
         app:layout_constraintEnd_toEndOf="@+id/black"
         app:layout_constraintStart_toStartOf="@+id/black"
         app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
+
+    <ImageView
+        android:id="@+id/undo"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:background="#FBC02D"
+        app:layout_constraintBottom_toTopOf="@+id/board_view_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display"
+        app:srcCompat="@drawable/undo" />
 
     <TextView
         android:id="@+id/dif_txt"
