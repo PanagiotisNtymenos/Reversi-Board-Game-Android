@@ -60,7 +60,7 @@
         android:src="@drawable/hintbulbshadow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/white"
-        app:layout_constraintStart_toEndOf="@+id/reset"/>
+        app:layout_constraintStart_toEndOf="@+id/reset" />
 
     <ImageButton
         android:id="@+id/reset"
@@ -1702,11 +1702,21 @@
         app:layout_constraintTop_toBottomOf="@+id/shadow_display" />
 
     <ImageView
-        android:id="@+id/undo"
+        android:id="@+id/undo_back"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
         android:background="#FBC02D"
+        app:layout_constraintBottom_toTopOf="@+id/board_view_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display" />
+
+    <ImageView
+        android:id="@+id/undo"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:background="@null"
         app:layout_constraintBottom_toTopOf="@+id/board_view_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/display"

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameEngine extends AppCompatActivity {
 
@@ -26,8 +27,7 @@ public class GameEngine extends AppCompatActivity {
     static Moves move = new Moves();
     static Board z = new Board();
     public char[][] currentBoardTemp = new char[8][8];
-    public char[][] backUp = new char[8][8];
-    ArrayList<char[][]> undos = new ArrayList<>();
+    HashMap<Integer, char[][]> undos = new HashMap<>();
     private boolean pTurn = false;
     private boolean finish = false;
     private boolean hints = false;
@@ -227,6 +227,7 @@ public class GameEngine extends AppCompatActivity {
                 display.setText("New Game!");
                 blackp.setText(Xs + "");
                 whitep.setText(Os + "");
+                undoCount = -1;
                 changeBoard("reset", false);
                 if (!mute) reset_sound.start();
                 reset.animate().rotation(reset.getRotation() - 360).start();
@@ -250,14 +251,22 @@ public class GameEngine extends AppCompatActivity {
         });
         findViewById(R.id.undo).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!undos.isEmpty()) {
+                if (!undos.isEmpty() && undoCount >= 1) {
+                    if (!mute) level_sound.start();
+                    Animation bounce = AnimationUtils.loadAnimation(GameEngine.this, R.anim.bounce);
+                    findViewById(R.id.undo).startAnimation(bounce);
                     undos.remove(undoCount);
                     undoCount--;
-                    if (!undos.isEmpty() && undoCount >= 0) {
-                        currentBoardTemp = undos.get(undoCount);
+                    if (!undos.isEmpty()) {
+                        for (int x = 0; x < 8; x++) {
+                            for (int y = 0; y < 8; y++) {
+                                z.currentBoard[x][y] = undos.get(undoCount)[x][y];
+                            }
+                        }
                     }
-
+                    move.possibleMoves(z, choice);
                     changeBoard("update", false);
+                    liveScore(z);
                 }
             }
         });
@@ -1111,6 +1120,7 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void playersTurn(char choice, TextView display, String position) {
+        char[][] backUp = new char[8][8];
         final Button virtual_enable = findViewById(R.id.v_en);
         final Button virtual_disable = findViewById(R.id.v_dis);
         MediaPlayer roll = MediaPlayer.create(this, R.raw.rollover);
@@ -1129,9 +1139,13 @@ public class GameEngine extends AppCompatActivity {
 
                         display.setText("Can't move there!");
                     } else {
-                        backUp = z.currentBoard;
-                        undos.add(backUp);
+                        for (int x = 0; x < 8; x++) {
+                            for (int y = 0; y < 8; y++) {
+                                backUp[x][y] = z.currentBoard[x][y];
+                            }
+                        }
                         undoCount++;
+                        undos.put(undoCount, backUp);
                         for (int x = 0; x < 8; x++) {
                             for (int y = 0; y < 8; y++) {
                                 currentBoardTemp[x][y] = z.currentBoard[x][y];
@@ -1143,7 +1157,6 @@ public class GameEngine extends AppCompatActivity {
                                 z.currentBoard[x][y] = z.nextMoves[row][column].currentBoard[x][y];
                             }
                         }
-
                         virtual_disable.performClick();
                         changeBoard("update", true);
                         liveScore(z);
